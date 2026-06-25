@@ -1,0 +1,27 @@
+# ── Python ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# ── Virtualenv (recreate from requirements.txt) ─────────
+venv/
+.venv/
+env/
+
+# ── The database is RUNTIME STATE, never committed ──────
+# Holds day placements, the active plan, and the start date.
+# Recreate from JSON with:  python -m seed.seed   (drops + reseeds)
+trainer.db
+*.sqlite
+*.sqlite3
+
+# ── Local / editor / OS ─────────────────────────────────
+.env
+.env.*
+*.bak
+*.tar.gz
+exports/
+.DS_Store
+.idea/
+.vscode/

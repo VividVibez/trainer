@@ -1,0 +1,1092 @@
+{
+  "format": "trainer-plan",
+  "version": 1,
+  "plan": {
+    "key": "plan-1",
+    "name": "52-Week Blueprint — Healthy",
+    "weeks": 52,
+    "session_count": {
+      "mode": "parity",
+      "odd": 4,
+      "even": 3
+    },
+    "toggle_options": [
+      3,
+      4
+    ],
+    "deload_weeks": [
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52
+    ],
+    "phases": [
+      {
+        "slug": "base",
+        "name": "Base / Accumulation",
+        "header_label": "Base",
+        "subtitle": "Weeks 1–8 · Deloads W4, W8",
+        "week_start": 1,
+        "week_end": 8,
+        "order_index": 1,
+        "color": "#22C55E",
+        "goal": "Build a large training capacity. Accumulate high submaximal climbing volume, broaden your movement vocabulary across every angle and style, and condition the fingers and pulling system to tolerate the hard blocks that follow. Volume and movement quality lead; intensity simmers underneath. This is the engine you spend the rest of the year converting into strength, power and skill.",
+        "overview": "Broad, sub-limit volume across all angles and styles — with skill and movement quality as the explicit priority, not an afterthought: coordination woven into warm-ups, video review as a standing habit. Board volume builds contact-strength capacity from week 1. Finger loading opens with sub-maximal density hangs and ramps load through the phase toward the max-hang range, bridging straight into the Strength block. One weekly limit session keeps the high end from detraining.",
+        "deload_note": "Cut volume ~40–50%, keep a couple of quality efforts for feel. Drop the hangboard to a light couple of sets. Capacity is built by consistency — the deload protects the work, it doesn't undo it."
+      },
+      {
+        "slug": "max-strength",
+        "name": "Maximum Strength",
+        "header_label": "Strength",
+        "subtitle": "Weeks 9–20 · Deloads W12, W16, W20",
+        "week_start": 9,
+        "week_end": 20,
+        "order_index": 2,
+        "color": "#3B82F6",
+        "goal": "Build maximal finger and pulling strength on the base you just laid. MaxHangs and heavy low-rep pulls at home; board-limit work and limit bouldering at the centre as the primary, most climbing-specific finger-strength drivers. Skill is maintained through a weekly movement session and warm-up coordination.",
+        "overview": "The strength block. Board limit and limit bouldering supply most of the max-finger stimulus (they are the most specific to climbing); MaxHangs and heavy pulls back them up from home. Optional check before leaning fully into this weighting — a clean 7 s two-arm 20 mm max hang (≈+33–36 kg at 75 kg ≈ the V9 norm): at or above it, run the phase as written; below it, raise the finger emphasis. Re-test finger max and pull 1RM at the end of W20.",
+        "deload_note": "Hangboard to a couple of sets, pull volume −50%, sub-limit climbing only. Tendons and pulleys adapt slower than muscle, so the deload is mandatory, not optional."
+      },
+      {
+        "slug": "power",
+        "name": "Power / Contact Strength",
+        "header_label": "Power",
+        "subtitle": "Weeks 21–32 · Deloads W24, W28, W32",
+        "week_start": 21,
+        "week_end": 32,
+        "order_index": 3,
+        "color": "#FF5500",
+        "goal": "Convert maximal strength into rate-of-force-development and contact strength — generating and applying force explosively on dynamic moves. Shift the hangboard to recruitment/RFD work. Campus and dynamic board work, fresh only. Heavy comp-style coordination while neurally fresh.",
+        "overview": "Strength becomes speed. RFD/recruitment hangs, campus and dynamic board work, and limit dynos — all trained fresh at the start of sessions. Three deloads (W24, W28, W32) split the block into ~4-week power waves, matching the fast neural-adaptation window. A weekly MaxHang set keeps strength from decaying; coordination and movement quality stay first-class — a dedicated block in each limit session while fresh, plus video review.",
+        "deload_note": "Cut campus/dynamic work entirely. One sub-limit centre session, one easy board session. Home: a couple of light sets only."
+      },
+      {
+        "slug": "power-endurance",
+        "name": "Power-Endurance & Comp Skills",
+        "header_label": "Power-Endurance",
+        "subtitle": "Weeks 33–40 · Deloads W36, W40",
+        "week_start": 33,
+        "week_end": 40,
+        "order_index": 4,
+        "color": "#A855F7",
+        "goal": "Build repeatability and the ability to perform through comp-style fatigue. Simulate comp conditions, sharpen the flash/try-hard skills needed under pressure, and train intermittent grip endurance. Your comp-ready window — a casual comp swaps in cleanly here.",
+        "overview": "Repeatability and comp sharpening. IntHangs/repeaters for grip endurance; 4×4s and 1-minute boulders for lactic power-endurance; comp-simulation rounds with a flash mindset and full coordination demand. One short MaxHang set weekly holds strength. Never combine IntHangs and MaxHangs in one session.",
+        "deload_note": "Drop 4×4s and PE climbing entirely. Skill/volume session only. IntHangs to a couple of sets. This deload also transitions into Wave 2."
+      },
+      {
+        "slug": "wave2-strength",
+        "name": "Wave 2 · Strength",
+        "header_label": "Wave 2 · Strength",
+        "subtitle": "Weeks 41–44 · Deload W44",
+        "week_start": 41,
+        "week_end": 44,
+        "order_index": 5,
+        "color": "#EF4444",
+        "goal": "Re-stimulate maximal strength after the power-endurance phase. Return to MaxHangs (load from the Strength-block peak or slightly above) and heavy pulls. Exploits the fast 4–5-week neural-adaptation window.",
+        "overview": "A condensed 4-week strength re-stimulation. MaxHangs and heavy weighted pulls return; limit bouldering fresh once a week; board limit the other centre finger work. Reasserts the strength base before the final power push.",
+        "deload_note": "W44 deload — hangboard to a couple of sets, pull volume −50%, sub-limit climbing. Flows toward the Wave 2 power block."
+      },
+      {
+        "slug": "wave2-power",
+        "name": "Wave 2 · Power",
+        "header_label": "Wave 2 · Power",
+        "subtitle": "Weeks 45–48 · Deload W48",
+        "week_start": 45,
+        "week_end": 48,
+        "order_index": 6,
+        "color": "#F97316",
+        "goal": "Convert the re-stimulated strength back to power. RFD/recruitment hangs, campus/dynamic board work and comp coordination — all fresh. Explosive concentric pulls. Sharpens strength and power for hard outdoor sessions and late-season comps.",
+        "overview": "A condensed 4-week power block mirroring the main Power phase. RFD/recruitment hangs, campus and dynamic board work, coordination while fresh, and explosive concentric pull-ups (2×5 @ ~80%, max intent). Ends in the W48 deload that flows into Open.",
+        "deload_note": "W48 deload — cut campus/dynamic work, easy board and centre only, light hangs. Flows directly into the Open/Reset block."
+      },
+      {
+        "slug": "open",
+        "name": "Open / Performance & Reset",
+        "header_label": "Open",
+        "subtitle": "Weeks 49–52 · Full deload W52",
+        "week_start": 49,
+        "week_end": 52,
+        "order_index": 7,
+        "color": "#64748B",
+        "goal": "Free, intuitive climbing. Let accumulated strength and skill express themselves — outdoor projects, trips, comps, personal challenges. Re-test benchmarks. Full deload on W52, then restart the cycle.",
+        "overview": "No prescription — climb what you want, where you want. Try outdoor benchmark problems or projects; re-film the benchmarks you shot early in the year (around W8) to compare. Attend late-season comps. Home work is light and optional. W52 is a full deload + retest (7 s max hang, weighted-pull 1RM, benchmark video) to plan next year.",
+        "deload_note": "W52 full deload — a couple of very light technical sessions max. Re-test the 7 s max hang and weighted-pull 1RM. Review the year and note limiters for next cycle."
+      }
+    ],
+    "sessions": [
+      {
+        "phase": "base",
+        "type": "A",
+        "name": "Centre Volume & Skill",
+        "location": "Centre",
+        "duration": "3–4 hrs",
+        "cns": "Moderate",
+        "rules": "Sub-limit, 1–2 grades below max. Volume and movement quality are the point — accumulate mileage across every style and angle and treat skill as training, not filler. Modern comp movement encouraged. Film and review.",
+        "order_index": 1,
+        "count_four": 2,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Gym Volume",
+            "locked": true
+          },
+          {
+            "name": "Coordination & Comp Movement",
+            "locked": false
+          },
+          {
+            "name": "Gym Volume & Skill",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "base",
+        "type": "B",
+        "name": "Limit Bouldering",
+        "location": "Centre",
+        "duration": "2–3 hrs",
+        "cns": "High",
+        "rules": "Completely fresh — never after a hard session. Full rest 3–5 min between attempts. 10–20 real attempts. If you're not failing, you're not limit bouldering. One limit session a week keeps the high end sharp through the volume base.",
+        "order_index": 2,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Limit Bouldering",
+            "locked": true
+          },
+          {
+            "name": "Limit Bouldering – Strength",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "base",
+        "type": "C",
+        "name": "Board Volume",
+        "location": "Centre · Board",
+        "duration": "1–2 hrs",
+        "cns": "High",
+        "rules": "Board for contact strength and finger capacity — build volume across varied angles and holds, full range of grips, quality movement. ≥48 h from any hangboard day. Warm the fingers thoroughly and stop while fresh — fingers get hurt when they're tired, so never board fatigued.",
+        "order_index": 3,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Board",
+            "locked": true
+          },
+          {
+            "name": "Board Volume – Base",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "base",
+        "type": "D",
+        "name": "Home: Hangboard",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "Short and basic — keep it under 30–45 min. Always fresh: ≥48 h since the last board or limit session, and ≥48 h between hangboard days.",
+        "order_index": 4,
+        "count_four": 0,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "Density Hangs – Base",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "base",
+        "type": "D",
+        "name": "Home: Pulls + Prehab",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "Weighted pulls + forearm prehab, ≤30–45 min. Pulls load the bar, not small edges, so this isn't a hard-finger day — it can sit next to centre sessions without breaking finger spacing.",
+        "order_index": 5,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "Weighted Pull-ups – Base",
+            "locked": false
+          },
+          {
+            "name": "Wrist & Forearm Prehab",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "max-strength",
+        "type": "B",
+        "name": "Limit Bouldering",
+        "location": "Centre",
+        "duration": "2–3 hrs",
+        "cns": "High",
+        "rules": "Completely fresh — never after a hard session. Full rest 3–5 min between attempts. 10–20 real attempts. If you're not failing, you're not limit bouldering.",
+        "order_index": 1,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Limit Bouldering",
+            "locked": true
+          },
+          {
+            "name": "Limit Bouldering – Strength",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "max-strength",
+        "type": "C",
+        "name": "Board Limit",
+        "location": "Centre · Board",
+        "duration": "1–2 hrs",
+        "cns": "High",
+        "rules": "Board limit, max effort, full rest between attempts. When this lands twice in a week, run the first as limit and the second as moderate volume. ≥48 h from any hangboard day. Warm the fingers thoroughly and stop while fresh — fingers get hurt when they're tired, so never board fatigued.",
+        "order_index": 2,
+        "count_four": 2,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Board",
+            "locked": true
+          },
+          {
+            "name": "Board Limit – Strength",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "max-strength",
+        "type": "A",
+        "name": "Centre Skill",
+        "location": "Centre",
+        "duration": "3–4 hrs",
+        "cns": "Moderate",
+        "rules": "Skill and movement quality kept first-class even here — sub-limit volume with a coordination focus while fresh. Skill also lives in your warm-ups all year. Film a few goes and review your movement.",
+        "order_index": 3,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Gym Volume",
+            "locked": true
+          },
+          {
+            "name": "Coordination & Comp Movement",
+            "locked": false
+          },
+          {
+            "name": "Gym Volume & Skill",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "max-strength",
+        "type": "D",
+        "name": "Home: Max Hangs",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "Short and basic — keep it under 30–45 min. Always fresh: ≥48 h since the last board or limit session, and ≥48 h between hangboard days.",
+        "order_index": 4,
+        "count_four": 0,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "Max Hangs – Strength",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "max-strength",
+        "type": "D",
+        "name": "Home: Heavy Pulls + Prehab",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "Weighted pulls + forearm prehab, ≤30–45 min. Pulls load the bar, not small edges, so this isn't a hard-finger day — it can sit next to centre sessions without breaking finger spacing.",
+        "order_index": 5,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "Weighted Pull-ups – Strength",
+            "locked": false
+          },
+          {
+            "name": "Wrist & Forearm Prehab",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "power",
+        "type": "B",
+        "name": "Limit + Dynamic",
+        "location": "Centre",
+        "duration": "2–3 hrs",
+        "cns": "High",
+        "rules": "Fresh. First 20 min on dynamic/coordination while neurally fresh, then limit work with full rest. Explosive intent. Film and self-review.",
+        "order_index": 1,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Limit Bouldering",
+            "locked": true
+          },
+          {
+            "name": "Coordination & Comp Movement",
+            "locked": false
+          },
+          {
+            "name": "Limit Bouldering – Power",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "power",
+        "type": "C",
+        "name": "Board Power",
+        "location": "Centre · Board",
+        "duration": "1–2 hrs",
+        "cns": "High",
+        "rules": "Board power / campus — explosive, fresh only at the session start, 3–5 efforts with full rest. When this lands twice in a week, make the second dynamic board volume. ≥48 h from any hangboard day. Warm the fingers thoroughly and stop while fresh — fingers get hurt when they're tired, so never board fatigued.",
+        "order_index": 2,
+        "count_four": 2,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Board",
+            "locked": true
+          },
+          {
+            "name": "Campus / Dynamic Work",
+            "locked": false
+          },
+          {
+            "name": "Board Power – Power",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "power",
+        "type": "A",
+        "name": "Centre Skill",
+        "location": "Centre",
+        "duration": "3–4 hrs",
+        "cns": "Moderate",
+        "rules": "Skill and movement quality kept first-class even here — sub-limit volume with a coordination focus while fresh. Skill also lives in your warm-ups all year. Film a few goes and review your movement.",
+        "order_index": 3,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Gym Volume",
+            "locked": true
+          },
+          {
+            "name": "Coordination & Comp Movement",
+            "locked": false
+          },
+          {
+            "name": "Gym Volume & Skill",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "power",
+        "type": "D",
+        "name": "Home: RFD Hangs",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "RFD/recruitment work — low fatigue, stop when speed drops. Keep one MaxHang maintenance set so strength doesn't decay. Short and basic — keep it under 30–45 min. Always fresh: ≥48 h since the last board or limit session, and ≥48 h between hangboard days.",
+        "order_index": 4,
+        "count_four": 0,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "RFD / Recruitment Hangs – Power",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "power",
+        "type": "D",
+        "name": "Home: Power Pulls + Prehab",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "Explosive concentric intent on every rep. Weighted pulls + forearm prehab, ≤30–45 min. Pulls load the bar, not small edges, so this isn't a hard-finger day — it can sit next to centre sessions without breaking finger spacing.",
+        "order_index": 5,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "Weighted Pull-ups – Power",
+            "locked": false
+          },
+          {
+            "name": "Wrist & Forearm Prehab",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "power-endurance",
+        "type": "B",
+        "name": "Comp Simulation",
+        "location": "Centre",
+        "duration": "2–3 hrs",
+        "cns": "High",
+        "rules": "Comp simulation — flash/3-go mindset on unknown problems, light time pressure. Practise the reset/breathing routine. A casual comp replaces this session (don't add it on top).",
+        "order_index": 1,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Limit Bouldering",
+            "locked": true
+          },
+          {
+            "name": "Comp Simulation",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "power-endurance",
+        "type": "C",
+        "name": "Board PE (4×4s)",
+        "location": "Centre · Board",
+        "duration": "1–2 hrs",
+        "cns": "High",
+        "rules": "Power-endurance: 4×4s or 1-minute boulders. Moderate volume, stop before form breaks. ≥48 h from any hangboard day. Warm the fingers thoroughly and stop while fresh — fingers get hurt when they're tired, so never board fatigued.",
+        "order_index": 2,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Board",
+            "locked": true
+          },
+          {
+            "name": "Board Power-Endurance",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "power-endurance",
+        "type": "A",
+        "name": "Centre Skill + Coordination",
+        "location": "Centre",
+        "duration": "3–4 hrs",
+        "cns": "Moderate",
+        "rules": "Skill/volume with a dedicated coordination block while fresh — modern comp movement. Film and review.",
+        "order_index": 3,
+        "count_four": 2,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Gym Volume",
+            "locked": true
+          },
+          {
+            "name": "Coordination & Comp Movement",
+            "locked": false
+          },
+          {
+            "name": "Gym Volume & Skill",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "power-endurance",
+        "type": "D",
+        "name": "Home: IntHangs",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "IntHangs + one short MaxHang set to hold strength. Never combine IntHangs and MaxHangs as the main work in one session. Short and basic — keep it under 30–45 min. Always fresh: ≥48 h since the last board or limit session, and ≥48 h between hangboard days.",
+        "order_index": 4,
+        "count_four": 0,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "IntHangs / Repeaters – Power-Endurance",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "power-endurance",
+        "type": "D",
+        "name": "Home: Maintenance Pulls + Prehab",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "Weighted pulls + forearm prehab, ≤30–45 min. Pulls load the bar, not small edges, so this isn't a hard-finger day — it can sit next to centre sessions without breaking finger spacing.",
+        "order_index": 5,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "Weighted Pull-ups – Power-Endurance",
+            "locked": false
+          },
+          {
+            "name": "Wrist & Forearm Prehab",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "wave2-strength",
+        "type": "B",
+        "name": "Limit Bouldering",
+        "location": "Centre",
+        "duration": "2–3 hrs",
+        "cns": "High",
+        "rules": "Completely fresh — never after a hard session. Full rest 3–5 min between attempts. 10–20 real attempts. If you're not failing, you're not limit bouldering.",
+        "order_index": 1,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Limit Bouldering",
+            "locked": true
+          },
+          {
+            "name": "Limit Bouldering – Strength",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "wave2-strength",
+        "type": "C",
+        "name": "Board Limit",
+        "location": "Centre · Board",
+        "duration": "1–2 hrs",
+        "cns": "High",
+        "rules": "Board limit; a second appearance in a week = moderate volume. ≥48 h from any hangboard day. Warm the fingers thoroughly and stop while fresh — fingers get hurt when they're tired, so never board fatigued.",
+        "order_index": 2,
+        "count_four": 2,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Board",
+            "locked": true
+          },
+          {
+            "name": "Board Limit – Strength",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "wave2-strength",
+        "type": "A",
+        "name": "Centre Skill",
+        "location": "Centre",
+        "duration": "3–4 hrs",
+        "cns": "Moderate",
+        "rules": "Skill and movement quality kept first-class even here — sub-limit volume with a coordination focus while fresh. Skill also lives in your warm-ups all year. Film a few goes and review your movement.",
+        "order_index": 3,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Gym Volume",
+            "locked": true
+          },
+          {
+            "name": "Coordination & Comp Movement",
+            "locked": false
+          },
+          {
+            "name": "Gym Volume & Skill",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "wave2-strength",
+        "type": "D",
+        "name": "Home: Max Hangs",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "MaxHangs — load from the Strength-block peak or slightly above. Short and basic — keep it under 30–45 min. Always fresh: ≥48 h since the last board or limit session, and ≥48 h between hangboard days.",
+        "order_index": 4,
+        "count_four": 0,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "Max Hangs – Strength",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "wave2-strength",
+        "type": "D",
+        "name": "Home: Heavy Pulls + Prehab",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "Weighted pulls + forearm prehab, ≤30–45 min. Pulls load the bar, not small edges, so this isn't a hard-finger day — it can sit next to centre sessions without breaking finger spacing.",
+        "order_index": 5,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "Weighted Pull-ups – Strength",
+            "locked": false
+          },
+          {
+            "name": "Wrist & Forearm Prehab",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "wave2-power",
+        "type": "B",
+        "name": "Limit + Dynamic",
+        "location": "Centre",
+        "duration": "2–3 hrs",
+        "cns": "High",
+        "rules": "Fresh. Dynamic/coordination first, then limit. Explosive intent.",
+        "order_index": 1,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Limit Bouldering",
+            "locked": true
+          },
+          {
+            "name": "Coordination & Comp Movement",
+            "locked": false
+          },
+          {
+            "name": "Limit Bouldering – Power",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "wave2-power",
+        "type": "C",
+        "name": "Board Power",
+        "location": "Centre · Board",
+        "duration": "1–2 hrs",
+        "cns": "High",
+        "rules": "Board power / campus — explosive, fresh only; a second appearance = dynamic board volume. ≥48 h from any hangboard day. Warm the fingers thoroughly and stop while fresh — fingers get hurt when they're tired, so never board fatigued.",
+        "order_index": 2,
+        "count_four": 2,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Board",
+            "locked": true
+          },
+          {
+            "name": "Campus / Dynamic Work",
+            "locked": false
+          },
+          {
+            "name": "Board Power – Power",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "wave2-power",
+        "type": "A",
+        "name": "Centre Skill",
+        "location": "Centre",
+        "duration": "3–4 hrs",
+        "cns": "Moderate",
+        "rules": "Skill and movement quality kept first-class even here — sub-limit volume with a coordination focus while fresh. Skill also lives in your warm-ups all year. Film a few goes and review your movement.",
+        "order_index": 3,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Gym Volume",
+            "locked": true
+          },
+          {
+            "name": "Coordination & Comp Movement",
+            "locked": false
+          },
+          {
+            "name": "Gym Volume & Skill",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "wave2-power",
+        "type": "D",
+        "name": "Home: RFD Hangs",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "RFD/recruitment hangs, low fatigue. Keep one MaxHang maintenance set. Short and basic — keep it under 30–45 min. Always fresh: ≥48 h since the last board or limit session, and ≥48 h between hangboard days.",
+        "order_index": 4,
+        "count_four": 0,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "RFD / Recruitment Hangs – Power",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "wave2-power",
+        "type": "D",
+        "name": "Home: Power Pulls + Prehab",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "Explosive concentric pulls — 2×5 @ ~80%, max-intent speed. Weighted pulls + forearm prehab, ≤30–45 min. Pulls load the bar, not small edges, so this isn't a hard-finger day — it can sit next to centre sessions without breaking finger spacing.",
+        "order_index": 5,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "Weighted Pull-ups – Power",
+            "locked": false
+          },
+          {
+            "name": "Wrist & Forearm Prehab",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "open",
+        "type": "A",
+        "name": "Free Climbing",
+        "location": "Centre",
+        "duration": "3–4 hrs",
+        "cns": "Moderate",
+        "rules": "Free climbing — whatever motivates you. No redpoint pressure unless you want it.",
+        "order_index": 1,
+        "count_four": 2,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Gym Volume",
+            "locked": true
+          },
+          {
+            "name": "Gym Volume & Skill",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "open",
+        "type": "B",
+        "name": "Projects / Limit",
+        "location": "Centre",
+        "duration": "2–3 hrs",
+        "cns": "High",
+        "rules": "Projects or limit problems, your call. Or a benchmark session — re-film the problems you shot early in the year.",
+        "order_index": 2,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Limit Bouldering",
+            "locked": true
+          },
+          {
+            "name": "Limit Bouldering – Power",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "open",
+        "type": "C",
+        "name": "Board Benchmark",
+        "location": "Centre · Board",
+        "duration": "1–2 hrs",
+        "cns": "High",
+        "rules": "Board benchmark / projects. Compare to earlier in the year.",
+        "order_index": 3,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Board",
+            "locked": true
+          },
+          {
+            "name": "Board Power – Power",
+            "locked": false
+          },
+          {
+            "name": "Cool-down – Climbing",
+            "locked": true
+          }
+        ]
+      },
+      {
+        "phase": "open",
+        "type": "D",
+        "name": "Home: Light Hangs (optional)",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "Optional, light — you're performing now, not training. A couple of easy sub-max sets to stay touched-in. Short and basic — keep it under 30–45 min. Always fresh: ≥48 h since the last board or limit session, and ≥48 h between hangboard days.",
+        "order_index": 4,
+        "count_four": 0,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "Density Hangs – Base",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": "open",
+        "type": "D",
+        "name": "Home: Maintenance Pulls (optional)",
+        "location": "Home",
+        "duration": "30–45 min",
+        "cns": "Moderate–High",
+        "rules": "Optional, light maintenance. Weighted pulls + forearm prehab, ≤30–45 min. Pulls load the bar, not small edges, so this isn't a hard-finger day — it can sit next to centre sessions without breaking finger spacing.",
+        "order_index": 5,
+        "count_four": 1,
+        "count_three": 1,
+        "exercises": [
+          {
+            "name": "Warm-up – Home Conditioning",
+            "locked": true
+          },
+          {
+            "name": "Weighted Pull-ups – Power-Endurance",
+            "locked": false
+          },
+          {
+            "name": "Wrist & Forearm Prehab",
+            "locked": false
+          }
+        ]
+      },
+      {
+        "phase": null,
+        "type": "P",
+        "name": "Push / Antagonist",
+        "location": "Home / Centre",
+        "duration": "30–45 min",
+        "cns": "Low–Moderate",
+        "rules": "Year-round, 2×/week, entirely separate from climbing. ≥6 h from any climbing or pulling. Never fatigue shoulder stabilisers before hard climbing or board work. Don't go to failure on the press — leave 2 reps in reserve.",
+        "order_index": 99,
+        "count_four": 2,
+        "count_three": 2,
+        "exercises": [
+          {
+            "name": "Warm-up – Push / Antagonist",
+            "locked": true
+          },
+          {
+            "name": "Bench Press",
+            "locked": false
+          },
+          {
+            "name": "Shoulder Press",
+            "locked": false
+          },
+          {
+            "name": "Tricep Extensions",
+            "locked": false
+          },
+          {
+            "name": "Wrist Curls",
+            "locked": false
+          },
+          {
+            "name": "Reverse Wrist Curls",
+            "locked": false
+          },
+          {
+            "name": "Rotator Cuff Circuit",
+            "locked": false
+          }
+        ]
+      }
+    ]
+  }
+}

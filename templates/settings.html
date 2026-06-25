@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}Settings · Trainer{% endblock %}
+{% block content %}
+<header class="set-head">
+  <a class="nav-btn" href="{{ url_for('planner.home') }}" aria-label="Back to planner">‹</a>
+  <h1>Settings</h1>
+</header>
+
+<section class="set-sec">
+  <div class="sec-label">Plans <span class="count">{{ plan_count }}</span></div>
+  <p class="set-hint">The active plan is what the planner shows. <strong>Duplicate</strong> a plan to fork it — edit the copy and switch to it without touching the original. Each plan keeps its own day placements.</p>
+
+  <div class="plan-list">
+    {% for p in plans %}
+    <div class="plan-card {{ 'on' if p.active }}">
+      <div class="plan-top">
+        <div class="plan-name">
+          {{ p.name }}
+          {% if p.active %}<span class="active-badge">Active</span>{% endif %}
+        </div>
+        {% if not p.active %}
+        <form method="post" action="{{ url_for('settings.set_active') }}">
+          <input type="hidden" name="key" value="{{ p.key }}">
+          <button class="btn primary" type="submit">Use</button>
+        </form>
+        {% endif %}
+      </div>
+      <div class="plan-meta">{{ p.key }} · {{ p.weeks }} wk · {{ p.sessions }} sessions · {{ p.placed }} placed</div>
+      <div class="plan-actions">
+        <form method="post" action="{{ url_for('settings.duplicate') }}">
+          <input type="hidden" name="key" value="{{ p.key }}">
+          <input type="hidden" name="name" value="">
+          <button class="btn" type="button" onclick="dupPlan(this, {{ p.name|tojson }})">Duplicate</button>
+        </form>
+        <a class="btn" href="{{ url_for('settings.export_pl', key=p.key) }}">Export</a>
+        <form method="post" action="{{ url_for('settings.delete') }}"
+              onsubmit="return confirm('Delete \u201c{{ p.name }}\u201d? This removes the plan and its day placements and cannot be undone.');">
+          <input type="hidden" name="key" value="{{ p.key }}">
+          <button class="btn danger" type="submit" {{ 'disabled' if (p.active or plan_count <= 1) }}>Delete</button>
+        </form>
+      </div>
+      {% if p.active and plan_count > 1 %}<div class="plan-tip">Switch to another plan before deleting this one.</div>{% endif %}
+      {% if plan_count <= 1 %}<div class="plan-tip">The only plan can't be deleted.</div>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="upload-row">
+    <input type="file" id="planFile" accept=".json,application/json" hidden>
+    <button class="btn" type="button" onclick="document.getElementById('planFile').click()">Upload plan file</button>
+  </div>
+  <div class="upload-panel" id="planPanel" hidden></div>
+</section>
+
+<section class="set-sec">
+  <div class="sec-label">Exercise pool <span class="count">{{ exercise_count }}</span></div>
+  <p class="set-hint">Exercises are a shared pool used by every plan. New exercises are appended; duplicates (matched by name) are skipped. A plan that references an exercise needs it in the pool first — so upload exercises before a plan that uses new ones.</p>
+  <div class="upload-row">
+    <input type="file" id="exFile" accept=".json,application/json" hidden>
+    <button class="btn" type="button" onclick="document.getElementById('exFile').click()">Upload exercises</button>
+    <a class="btn" href="{{ url_for('settings.export_ex') }}">Export</a>
+  </div>
+  <div class="upload-panel" id="exPanel" hidden></div>
+</section>
+
+<section class="set-sec">
+  <div class="sec-label">Plan start date</div>
+  <p class="set-hint">Shared across plans. The planner derives the current week from this — week 1 starts on the Monday of this date's week.</p>
+  <form method="post" action="{{ url_for('settings.start_date') }}" class="date-form">
+    <input type="date" name="date" value="{{ start_date }}" required>
+    <button class="btn primary" type="submit">Save</button>
+  </form>
+</section>
+
+<div class="pad"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function dupPlan(btn, name) {
+  var n = prompt("Name for the copy:", name + " (copy)");
+  if (n === null) return;                 // cancelled
+  n = n.trim();
+  if (!n) return;
+  var form = btn.closest("form");
+  form.querySelector('input[name="name"]').value = n;
+  form.submit();
+}
+
+// ---- file upload with dry-run preview ----
+function escapeHTML(s){ var d = document.createElement('div'); d.textContent = String(s); return d.innerHTML; }
+function readJSON(file){
+  return new Promise(function(res, rej){
+    var r = new FileReader();
+    r.onload = function(){ try { res(JSON.parse(r.result)); } catch(e){ rej("That file isn't valid JSON."); } };
+    r.onerror = function(){ rej("Couldn't read the file."); };
+    r.readAsText(file);
+  });
+}
+function postJSON(url, body){
+  return fetch(url, { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(body) })
+    .then(function(r){ return r.json(); });
+}
+function upErr(msg){ return '<div class="up-err">\u26A0 ' + escapeHTML(msg) + '</div>'; }
+
+function setupUploader(fileId, panelId, previewUrl, importUrl, renderSummary){
+  var input = document.getElementById(fileId);
+  var panel = document.getElementById(panelId);
+  input.addEventListener("change", function(){
+    if (!input.files.length) return;
+    var file = input.files[0];
+    panel.hidden = false;
+    panel.innerHTML = '<div class="up-msg">Reading\u2026</div>';
+    readJSON(file).then(function(data){
+      postJSON(previewUrl, data).then(function(resp){
+        if (!resp.ok){ panel.innerHTML = upErr(resp.error); return; }
+        panel.innerHTML = renderSummary(resp.summary) +
+          '<div class="up-actions">' +
+          '<button class="btn primary" id="' + panelId + '-go">Confirm import</button>' +
+          '<button class="btn" id="' + panelId + '-cancel">Cancel</button></div>';
+        document.getElementById(panelId + '-cancel').onclick = function(){ panel.hidden = true; };
+        document.getElementById(panelId + '-go').onclick = function(){
+          var go = document.getElementById(panelId + '-go');
+          go.disabled = true; go.textContent = "Importing\u2026";
+          postJSON(importUrl, data).then(function(ir){
+            if (ir.ok){ location.reload(); } else { panel.innerHTML = upErr(ir.error); }
+          }).catch(function(){ panel.innerHTML = upErr("Server error during import."); });
+        };
+      }).catch(function(){ panel.innerHTML = upErr("Server error during preview."); });
+    }).catch(function(err){ panel.innerHTML = upErr(err); });
+    input.value = "";    // allow re-selecting the same file
+  });
+}
+
+function planSummary(s){
+  var head = (s.action === "overwrite")
+    ? 'Overwrite <strong>' + escapeHTML(s.existing_name) + '</strong> <code>' + escapeHTML(s.key) + '</code>'
+    : 'Create new plan <strong>' + escapeHTML(s.name) + '</strong> <code>' + escapeHTML(s.key) + '</code>';
+  var warn = (s.action === "overwrite" && s.placements_wiped > 0)
+    ? '<div class="up-warn">Clears ' + s.placements_wiped + ' day placement(s) on that plan.</div>' : '';
+  return '<div class="up-msg">' + head + '<br>' + s.weeks + ' weeks \u00B7 ' + s.phases + ' phases \u00B7 ' + s.sessions + ' sessions.</div>' + warn;
+}
+function exSummary(s){
+  return '<div class="up-msg">Adds <strong>' + s.added.length + '</strong> new exercise(s); skips <strong>' + s.skipped.length + '</strong> already in the pool.</div>';
+}
+
+setupUploader("planFile", "planPanel", "{{ url_for('settings.plan_preview') }}", "{{ url_for('settings.plan_import') }}", planSummary);
+setupUploader("exFile", "exPanel", "{{ url_for('settings.exercises_preview') }}", "{{ url_for('settings.exercises_import') }}", exSummary);
+</script>
+{% endblock %}

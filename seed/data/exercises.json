@@ -1,0 +1,377 @@
+{
+  "format": "trainer-exercises",
+  "version": 1,
+  "tags": [
+    "warm-up",
+    "cool-down",
+    "finger",
+    "hangboard",
+    "pull",
+    "push",
+    "antagonist",
+    "prehab",
+    "climbing",
+    "board",
+    "limit",
+    "coordination",
+    "power",
+    "power-endurance",
+    "strength",
+    "base",
+    "high-cns",
+    "home",
+    "gym"
+  ],
+  "exercises": [
+    {
+      "name": "Warm-up – Gym Volume",
+      "variant_label": null,
+      "kind": "warmup",
+      "detail": "Pulse-raiser + mobility, then an easy-climbing ramp: ~10–15 min building progressively from jugs toward working grade. Shoulders and fingers fully prepped before anything hard. Fold in a few low-intensity coordination moves (precise feet, quiet hands, a couple of dynamic moves) as part of the ramp — skill primed every session.",
+      "tags": [
+        "warm-up",
+        "climbing",
+        "gym"
+      ]
+    },
+    {
+      "name": "Warm-up – Limit Bouldering",
+      "variant_label": null,
+      "kind": "warmup",
+      "detail": "Thorough — this is a high-CNS session. Pulse-raiser, shoulder and finger activation, then a long climbing ramp building to near-limit on a few moves. Never start limit attempts cold; warm to a light sweat first, including a few precise coordination moves while fresh.",
+      "tags": [
+        "warm-up",
+        "climbing",
+        "gym",
+        "high-cns"
+      ]
+    },
+    {
+      "name": "Warm-up – Board",
+      "variant_label": null,
+      "kind": "warmup",
+      "detail": "Finger-led. Warm to a light sweat, then ramp grip intensity gradually on bigger holds before touching board problems. Most board injuries happen on under-warmed or tired fingers — never hit the board cold.",
+      "tags": [
+        "warm-up",
+        "board",
+        "finger",
+        "high-cns"
+      ]
+    },
+    {
+      "name": "Warm-up – Home Conditioning",
+      "variant_label": null,
+      "kind": "warmup",
+      "detail": "~5 min. Rotator-cuff circuit (external rotation, scaption, reverse fly — 2 × 15 light), finger extensions, wrist circles. Primes shoulders and fingers before the hangboard.",
+      "tags": [
+        "warm-up",
+        "prehab",
+        "home"
+      ]
+    },
+    {
+      "name": "Warm-up – Push / Antagonist",
+      "variant_label": null,
+      "kind": "warmup",
+      "detail": "Shoulder activation — band external rotation, scapular work, light empty-bar pressing. Get the cuff firing before loading the press.",
+      "tags": [
+        "warm-up",
+        "push",
+        "antagonist"
+      ]
+    },
+    {
+      "name": "Gym Volume & Skill",
+      "variant_label": null,
+      "kind": "main",
+      "detail": "Varied sub-limit bouldering across every angle and style — 1–2 grades below max. High volume, lots of attempts, movement quality the priority. Modern comp moves: dynos, volumes, paddles, toe-catches. Exploratory and fun. Film a few problems and review your movement — skill is trained, not just accumulated.",
+      "tags": [
+        "climbing",
+        "gym"
+      ]
+    },
+    {
+      "name": "Coordination & Comp Movement",
+      "variant_label": null,
+      "kind": "main",
+      "detail": "Dedicated coordination block, trained fresh. Paddle dynos, double dynos, pogos, run-and-jump skate moves across volumes, dynamic toe-catches. Initiate from the centre of gravity first. Distinct neural patterns from static loading — learn with novelty and intent. Film and self-review.",
+      "tags": [
+        "climbing",
+        "coordination",
+        "gym"
+      ]
+    },
+    {
+      "name": "Limit Bouldering – Strength",
+      "variant_label": "Strength",
+      "kind": "main",
+      "detail": "At or above your limit, completely fresh. Full rest between attempts (3–5 min). 10–20 real high-effort attempts is plenty — if you're not failing, you're not limit bouldering. Quality over quantity.",
+      "tags": [
+        "climbing",
+        "limit",
+        "strength",
+        "gym",
+        "high-cns"
+      ]
+    },
+    {
+      "name": "Limit Bouldering – Power",
+      "variant_label": "Power",
+      "kind": "main",
+      "detail": "Limit work with a dynamic / contact-strength bias. Target 1–3 move cruxes, reset and repeat. Explosive intent on every go, full rest. Dynos, paddles and double-dynos in the first 20 min while freshest.",
+      "tags": [
+        "climbing",
+        "limit",
+        "power",
+        "gym",
+        "high-cns"
+      ]
+    },
+    {
+      "name": "Comp Simulation",
+      "variant_label": "Power-Endurance",
+      "kind": "main",
+      "detail": "Set a fake comp round — attempt unknown problems with a flash or 3-go mindset under light time pressure. Modern, varied, coordination-heavy. Practise the reset/breathing routine before each boulder. A casual comp swaps in directly here.",
+      "tags": [
+        "climbing",
+        "coordination",
+        "power-endurance",
+        "gym",
+        "high-cns"
+      ]
+    },
+    {
+      "name": "Board Volume – Base",
+      "variant_label": "Base",
+      "kind": "main",
+      "detail": "Board volume for contact strength and finger capacity. Vary angles and holds, train the full range of grips, prioritise quality movement and body tension. Build volume across the phase. Warm fingers thoroughly and stop while fresh.",
+      "tags": [
+        "board",
+        "finger",
+        "base",
+        "high-cns"
+      ]
+    },
+    {
+      "name": "Board Limit – Strength",
+      "variant_label": "Strength",
+      "kind": "main",
+      "detail": "Limit board problems, max effort, full rest between attempts. When board lands twice in a week, run one as limit and the second as moderate volume. ≥48 h from any hangboard day. Warm thoroughly and stop while fresh — never board tired.",
+      "tags": [
+        "board",
+        "finger",
+        "limit",
+        "strength",
+        "high-cns"
+      ]
+    },
+    {
+      "name": "Board Power – Power",
+      "variant_label": "Power",
+      "kind": "main",
+      "detail": "Explosive 3–5 move problems, contact-strength focus. Reset and repeat with full rest. Campus laddering if available — fresh only, at the session start.",
+      "tags": [
+        "board",
+        "finger",
+        "power",
+        "high-cns"
+      ]
+    },
+    {
+      "name": "Board Power-Endurance",
+      "variant_label": "Power-Endurance",
+      "kind": "main",
+      "detail": "Power-endurance on the board. 4×4s (4 attempts on 4 problems in sequence, minimal rest; 5–8 min between sets) or 1-minute boulders (climb a ~V5 continuously for 60 s). Moderate volume, stop before form breaks.",
+      "tags": [
+        "board",
+        "power-endurance",
+        "high-cns"
+      ]
+    },
+    {
+      "name": "Campus / Dynamic Work",
+      "variant_label": "Power",
+      "kind": "main",
+      "detail": "Campus laddering (1-3, 1-4, 1-5 progressions), fresh only at the session start. 3–5 explosive efforts, full rest (3 min+) between. High injury risk if done tired — first thing or not at all.",
+      "tags": [
+        "board",
+        "power",
+        "coordination",
+        "high-cns"
+      ]
+    },
+    {
+      "name": "Density Hangs – Base",
+      "variant_label": "Base",
+      "kind": "main",
+      "detail": "Sub-maximal isometric loading for finger capacity. 3–5 sets × 20–40 s at 60–70% max feel, 3 min+ rest, 20–22 mm edge — train both open-hand and half-crimp. Builds flexor and muscle-tendon-junction density: the tissue base that max strength is built on. Through Base, ramp load from a moderate start toward the top of the band and on toward the max-hang range as the phase ends, bridging into the Strength block. Never two hangboard days running.",
+      "tags": [
+        "finger",
+        "hangboard",
+        "base",
+        "home"
+      ]
+    },
+    {
+      "name": "Max Hangs – Strength",
+      "variant_label": "Strength",
+      "kind": "main",
+      "detail": "López MaxHangs. Load for a 5–15 s hang leaving a 2–3 s margin (≈90–97%). 3–5 sets per edge, 3–5 min full rest. 18–20 mm, alternate half-crimp and open-hand across sessions. Add load once the margin reliably exceeds ~3 s. 2×/week, ≥48 h between sessions. Start conservatively in W9; progress load from W11. (Wave 2 reuses this entry — load from the Strength-block peak or above.)",
+      "tags": [
+        "finger",
+        "hangboard",
+        "strength",
+        "home"
+      ]
+    },
+    {
+      "name": "RFD / Recruitment Hangs – Power",
+      "variant_label": "Power",
+      "kind": "main",
+      "detail": "Nelson recruitment/RFD work. Recruitment pulls: 3–5 s max-intent explosive pulls on a hang, 5 sets, 3 min rest. RFD hangs: 1–2 s sharp-onset hangs, max intent, 5 sets. Low fatigue — stop the moment speed or sharpness drops. Keep one MaxHang set weekly as a strength-maintenance touch. 18–20 mm, half-crimp primary. Always fresh. (Wave 2 reuses this entry.)",
+      "tags": [
+        "finger",
+        "hangboard",
+        "power",
+        "home"
+      ]
+    },
+    {
+      "name": "IntHangs / Repeaters – Power-Endurance",
+      "variant_label": "Power-Endurance",
+      "kind": "main",
+      "detail": "López IntHangs. Intermittent dead hangs: 10 s on / 5 s off × 6 reps = 1 set. 3–4 sets, 3–4 min rest between sets, ~70–75% (burning but sustainable across all reps). 18–20 mm, half-crimp. Keep one short MaxHang set weekly to prevent strength decay. Do NOT combine IntHangs and MaxHangs in the same session — conflicting demands blunt the endurance gain.",
+      "tags": [
+        "finger",
+        "hangboard",
+        "power-endurance",
+        "home"
+      ]
+    },
+    {
+      "name": "Weighted Pull-ups – Base",
+      "variant_label": "Base",
+      "kind": "main",
+      "detail": "3 × 5 at ~75–80% of current 1RM. Maintain your numbers — don't chase max yet. Full rest between sets.",
+      "tags": [
+        "pull",
+        "base",
+        "home"
+      ]
+    },
+    {
+      "name": "Weighted Pull-ups – Strength",
+      "variant_label": "Strength",
+      "kind": "main",
+      "detail": "3–5 sets × 1–5 reps near-max, 3–5 min rest. Progress load ~2.5 kg/week when reps feel manageable. (Wave 2 reuses this — 3 × 3–5 near-max.)",
+      "tags": [
+        "pull",
+        "strength",
+        "home"
+      ]
+    },
+    {
+      "name": "Weighted Pull-ups – Power",
+      "variant_label": "Power",
+      "kind": "main",
+      "detail": "Maintenance + explosive intent. 2 × 3–5 at ~85% of the Phase 2 peak, explosive concentric on every rep. Don't chase new 1RMs this phase. (Wave 2 power reuses this — 2 × 5 @ ~80%, max-intent speed.)",
+      "tags": [
+        "pull",
+        "power",
+        "home"
+      ]
+    },
+    {
+      "name": "Weighted Pull-ups – Power-Endurance",
+      "variant_label": "Power-Endurance",
+      "kind": "main",
+      "detail": "Maintenance only. 2–3 × 5 at a moderate-heavy load, clean reps. Just retaining strength while endurance is the focus.",
+      "tags": [
+        "pull",
+        "power-endurance",
+        "home"
+      ]
+    },
+    {
+      "name": "Wrist & Forearm Prehab",
+      "variant_label": null,
+      "kind": "main",
+      "detail": "Year-round. Wrist curls 3 × 12–15 + reverse wrist curls 3 × 12–15, light–moderate, full ROM, slow eccentric. Forearm balance and wrist health.",
+      "tags": [
+        "prehab",
+        "antagonist",
+        "home"
+      ]
+    },
+    {
+      "name": "Bench Press",
+      "variant_label": null,
+      "kind": "main",
+      "detail": "3 × 6–8, moderate load, ~2 reps in reserve. Horizontal push to balance pulling — don't go to failure.",
+      "tags": [
+        "push",
+        "antagonist"
+      ]
+    },
+    {
+      "name": "Shoulder Press",
+      "variant_label": null,
+      "kind": "main",
+      "detail": "3 × 8–10. Overhead pressing for deltoid balance and shoulder health.",
+      "tags": [
+        "push",
+        "antagonist"
+      ]
+    },
+    {
+      "name": "Tricep Extensions",
+      "variant_label": null,
+      "kind": "main",
+      "detail": "3 × 10–15. Triceps are underworked in climbing — a key elbow antagonist.",
+      "tags": [
+        "push",
+        "antagonist"
+      ]
+    },
+    {
+      "name": "Wrist Curls",
+      "variant_label": null,
+      "kind": "main",
+      "detail": "3 × 12–15, light, full ROM, slow eccentric. Forearm balance and wrist health.",
+      "tags": [
+        "prehab",
+        "antagonist"
+      ]
+    },
+    {
+      "name": "Reverse Wrist Curls",
+      "variant_label": null,
+      "kind": "main",
+      "detail": "3 × 12–15, light. Extensor side — critical forearm balance.",
+      "tags": [
+        "prehab",
+        "antagonist"
+      ]
+    },
+    {
+      "name": "Rotator Cuff Circuit",
+      "variant_label": null,
+      "kind": "main",
+      "detail": "2 × 15 each: external rotation (cable/band), scaption, reverse fly. Most common climbing injury zone — non-negotiable.",
+      "tags": [
+        "prehab",
+        "antagonist"
+      ]
+    },
+    {
+      "name": "Cool-down – Climbing",
+      "variant_label": null,
+      "kind": "cooldown",
+      "detail": "Decompress: a few easy problems or traverses, light antagonist (push-ups / band work), gentle forearm and shoulder stretch. Keeps the elbows happy.",
+      "tags": [
+        "cool-down",
+        "climbing"
+      ]
+    }
+  ]
+}

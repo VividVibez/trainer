@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% set active = 'plan' %}
+{% block title %}Week {{ week.week_number }} · Trainer{% endblock %}
+
+{% macro session_card(a, placed=False) %}
+  {# a = DayAssignment; s = its session #}
+  {% set s = a.session %}
+  <div class="scard t{{ s.type_letter|lower }}{{ ' done' if a.is_done }}"
+       data-aid="{{ a.id }}" data-type="{{ s.type_letter }}">
+    <div class="scard-main" {% if placed %}onclick="location.href='{{ url_for('pages.session_detail', session_id=s.id) }}'"{% endif %}>
+      <span class="badge t{{ s.type_letter|lower }}">{{ s.type_letter }}</span>
+      <span class="scard-text">
+        <strong>{{ s.name }}</strong>
+        <span class="scard-meta">{{ s.duration }} · {{ s.location }}</span>
+      </span>
+    </div>
+    {% if placed %}
+      <div class="scard-actions">
+        <button class="tick {{ 'on' if a.is_done }}" data-aid="{{ a.id }}"
+                aria-label="Mark done">✓</button>
+        <button class="unassign" data-aid="{{ a.id }}" aria-label="Move back to unassigned">↩</button>
+      </div>
+    {% else %}
+      <button class="assign-toggle" data-aid="{{ a.id }}" aria-label="Assign to a day">+ Day</button>
+    {% endif %}
+    {% if not placed %}
+      <div class="day-picker" id="picker-{{ a.id }}" hidden>
+        {% for d in days %}
+          <button class="day-pick {{ 'today' if d.is_today }}"
+                  data-aid="{{ a.id }}" data-day="{{ d.index }}">
+            {{ d.dow }}<span>{{ d.day_num }}</span>
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% block content %}
+<header class="wk-head" style="--phase: {{ phase.color }};">
+  <div class="wk-nav">
+    {% if prev_n %}<a class="nav-btn" href="{{ url_for('planner.week_view', n=prev_n) }}" aria-label="Previous week">‹</a>
+    {% else %}<span class="nav-btn ghost">‹</span>{% endif %}
+
+    <div class="wk-center">
+      <div class="wk-eyebrow">
+        <span class="wk-num">Week {{ week.week_number }}</span>
+        {% if week.is_deload %}<span class="deload-pill">Deload</span>{% endif %}
+      </div>
+      <a class="phase-link" href="{{ url_for('pages.phases') }}#{{ phase.slug }}">
+        {{ phase.header_label }} <span class="chev">›</span>
+      </a>
+      <div class="wk-sub">
+        Wk {{ week.position_in_phase }} of {{ week.phase_length }}
+        <span class="dot">·</span> {{ range_label }}
+      </div>
+    </div>
+
+    {% if next_n %}<a class="nav-btn" href="{{ url_for('planner.week_view', n=next_n) }}" aria-label="Next week">›</a>
+    {% else %}<span class="nav-btn ghost">›</span>{% endif %}
+  </div>
+
+  <div class="wk-bar">
+    {% if not is_current %}
+      <a class="today-btn" href="{{ url_for('planner.week_view', n=today_week) }}">Jump to current</a>
+    {% else %}
+      <span class="today-tag">Current week</span>
+    {% endif %}
+
+    <span class="delta {{ 'ahead' if delta.value > 0 else ('behind' if delta.value < 0 else 'level') }}"
+          id="delta" title="Sessions done vs scheduled, for weeks before this one">
+      {% if delta.value == 0 %}On track
+      {% elif delta.value > 0 %}{{ delta.value }} ahead
+      {% else %}{{ -delta.value }} behind{% endif %}
+    </span>
+
+    <div class="toggle" data-week="{{ week.week_number }}">
+      <button class="tg {{ 'on' if week.session_count == 3 }}" data-n="3">3</button>
+      <button class="tg {{ 'on' if week.session_count == 4 }}" data-n="4">4</button>
+      <span class="tg-label">centre</span>
+    </div>
+  </div>
+</header>
+
+{# ---- Unassigned tray ---- #}
+<section class="tray">
+  <div class="sec-label">Unassigned <span class="count">{{ tray|length }}</span></div>
+  {% if tray %}
+    <div class="tray-cards">
+      {% for a in tray %}{{ session_card(a, placed=False) }}{% endfor %}
+    </div>
+  {% else %}
+    <p class="empty">Every session is placed. Nice.</p>
+  {% endif %}
+</section>
+
+{# ---- Day rows ---- #}
+<section class="days">
+  {% for d in days %}
+    <div class="day-row {{ 'is-today' if d.is_today }}">
+      <div class="day-head">
+        <span class="day-label">{{ d.label }}</span>
+        {% if d.is_today %}<span class="day-today">Today</span>{% endif %}
+      </div>
+      <div class="day-slots">
+        {% if d.assignments %}
+          {% for a in d.assignments %}{{ session_card(a, placed=True) }}{% endfor %}
+        {% else %}
+          <span class="day-empty">Rest day</span>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</section>
+
+<div class="pad"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/planner.js') }}"></script>
+{% endblock %}

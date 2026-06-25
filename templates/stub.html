@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · Trainer{% endblock %}
+{% block content %}
+<header class="stub-head">
+  <a class="nav-btn" href="{{ url_for('planner.home') }}" aria-label="Back to planner">‹</a>
+  <h1>{{ title }}</h1>
+</header>
+
+<section class="stub-body">
+  <p class="note">{{ note }}</p>
+
+  {% if session is defined and session %}
+    <div class="sec-label">Exercises</div>
+    <ol class="stub-exlist">
+      {% for link in session.exercises %}
+        <li class="{{ 'locked' if link.is_locked }}">
+          {{ link.exercise.name }}
+          {% if link.is_locked %}<span class="lock">pinned</span>{% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+    {% if session.session_rules %}
+      <div class="sec-label">Session rules</div>
+      <p class="rules">{{ session.session_rules }}</p>
+    {% endif %}
+  {% endif %}
+</section>
+<div class="pad"></div>
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% set active = 'plan' %}
+{% block title %}{{ s.name }} · Trainer{% endblock %}
+{% block content %}
+<header class="sd-head" style="--phase: {{ phase.color if phase else '#F5C842' }};">
+  <a class="nav-btn" href="{{ url_for('planner.home') }}"
+     onclick="if(document.referrer){history.back();return false;}" aria-label="Back">‹</a>
+  <div class="sd-title">
+    <span class="badge t{{ s.type_letter|lower }}">{{ s.type_letter }}</span>
+    <h1>{{ s.name }}</h1>
+  </div>
+  {% if reorderable >= 2 %}
+  <button class="nav-btn" id="reorgBtn" aria-label="Reorganise exercises">⋮</button>
+  <button class="btn primary sd-done" id="doneBtn" hidden>Done</button>
+  {% endif %}
+</header>
+
+<div class="sd-meta">
+  {% if phase %}<span>{{ phase.header_label }}</span><span class="dot">·</span>{% endif %}
+  <span>{{ s.location }}</span><span class="dot">·</span>
+  <span>{{ s.duration }}</span><span class="dot">·</span>
+  <span>CNS {{ s.cns_level }}</span>
+</div>
+
+{% if s.session_rules %}<div class="sd-rules">{{ s.session_rules }}</div>{% endif %}
+
+<div class="sec-label sd-seclabel">Exercises <span class="count">{{ items|length }}</span></div>
+
+<section class="sd-list" id="exList">
+  {% for it in items %}
+  <div class="ex {{ 'locked' if it.locked }}" data-lid="{{ it.lid }}" data-locked="{{ '1' if it.locked else '0' }}">
+    <div class="ex-head" onclick="toggleEx(this)">
+      <span class="ex-grip" aria-hidden="true">⋮⋮</span>
+      <div class="ex-name">
+        {{ it.name }}
+        {% if it.locked %}<span class="ex-lock" title="Pinned in place">pinned</span>{% endif %}
+      </div>
+      <span class="ex-reorder" hidden>
+        <button class="rbtn up" type="button" aria-label="Move up">↑</button>
+        <button class="rbtn down" type="button" aria-label="Move down">↓</button>
+      </span>
+      <span class="ex-chev">▾</span>
+    </div>
+    <div class="ex-body" hidden>
+      {% if it.detail %}<p class="ex-detail">{{ it.detail }}</p>{% else %}<p class="ex-detail muted">No detail yet.</p>{% endif %}
+      {% if it.tags %}<div class="ex-tags">{% for t in it.tags %}<span class="tagchip">{{ t }}</span>{% endfor %}</div>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+<div class="pad"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function toggleEx(head){
+  if (document.body.classList.contains('reorg')) return;   // no expanding while reorganising
+  var ex = head.closest('.ex');
+  var body = ex.querySelector('.ex-body');
+  var open = !body.hidden;
+  body.hidden = open;
+  ex.classList.toggle('open', !open);
+}
+
+(function(){
+  var reorgBtn = document.getElementById('reorgBtn');
+  if (!reorgBtn) return;                                    // <2 reorderable: no reorganise mode
+  var doneBtn = document.getElementById('doneBtn');
+  var list = document.getElementById('exList');
+  var SID = {{ s.id }};
+
+  function middleEls(){
+    return Array.prototype.filter.call(list.children, function(ex){ return ex.dataset.locked === '0'; });
+  }
+  function updateArrows(){
+    var mids = middleEls();
+    mids.forEach(function(ex, i){
+      var up = ex.querySelector('.rbtn.up'), dn = ex.querySelector('.rbtn.down');
+      up.disabled = (i === 0);
+      dn.disabled = (i === mids.length - 1);
+    });
+  }
+  function setReorg(on){
+    document.body.classList.toggle('reorg', on);
+    reorgBtn.hidden = on;
+    doneBtn.hidden = !on;
+    list.querySelectorAll('.ex').forEach(function(ex){
+      ex.classList.remove('open');
+      ex.querySelector('.ex-body').hidden = true;
+      ex.querySelector('.ex-reorder').hidden = on ? (ex.dataset.locked === '1') : true;
+    });
+    if (on) updateArrows();
+  }
+  reorgBtn.onclick = function(){ setReorg(true); };
+  doneBtn.onclick = function(){ setReorg(false); };
+
+  function persist(){
+    var order = middleEls().map(function(ex){ return parseInt(ex.dataset.lid, 10); });
+    fetch('/session/' + SID + '/reorder', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({order: order})
+    }).catch(function(){ /* best-effort; order is also visible in the DOM */ });
+  }
+
+  list.addEventListener('click', function(e){
+    var btn = e.target.closest('.rbtn');
+    if (!btn || btn.disabled) return;
+    var ex = btn.closest('.ex');
+    if (btn.classList.contains('up')){
+      var prev = ex.previousElementSibling;
+      while (prev && prev.dataset.locked === '1') prev = prev.previousElementSibling;
+      if (prev) list.insertBefore(ex, prev);
+    } else {
+      var next = ex.nextElementSibling;
+      while (next && next.dataset.locked === '1') next = next.nextElementSibling;
+      if (next) list.insertBefore(next, ex);
+    }
+    updateArrows();
+    persist();
+  });
+})();
+</script>
+{% endblock %}
