@@ -16,6 +16,9 @@ trainer.db
 *.sqlite
 *.sqlite3
 
+# ── Claude Code ─────────────────────────────────────────
+.claude/settings.local.json
+
 # ── Local / editor / OS ─────────────────────────────────
 .env
 .env.*

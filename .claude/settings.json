@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "defaultMode": "auto",
+    "allow": [
+      "Bash(git *)",
+      "Bash(ssh *)",
+      "Bash(scp *)",
+      "Bash(python *)",
+      "Bash(curl *)"
+    ]
+  }
+}
