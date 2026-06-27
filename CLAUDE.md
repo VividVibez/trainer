@@ -149,9 +149,11 @@ not reintroduce them.
   export/upload with dry-run); CSS fixes + cache-busting.
 - **Built, deploy via this repo:** Stage 3 session detail (collapsible exercises,
   Reorganise mode with ↑/↓, reorder persists to `SessionExercise.position`).
-- **Next:** Stage 4 — Exercise Dictionary (editable, tags, search/filter; phase
-  variants as separate entries) + Session Library (editable presets, add/reorder).
-- **Then:** Stage 5 — Phases Overview + PWA polish (manifest, service worker,
+  Stage 4 — Exercise Dictionary (search/filter by tag, inline edit, add/delete) +
+  Session Library (sessions grouped by plan/phase, click → detail) + session detail
+  add/remove exercises in reorg mode. Also fixed latent `[hidden]` CSS bug
+  (`[hidden] { display: none !important }` added to reset).
+- **Next:** Stage 5 — Phases Overview + PWA polish (manifest, service worker,
   home-screen install). (Editable start date already shipped in Settings.)
 - Minor: make unassigned tray cards also open session detail (only placed cards
   link today). Pi housekeeping: enable unattended-upgrades; drop a duplicate

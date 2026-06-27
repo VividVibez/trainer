@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% block title %}Exercises · Trainer{% endblock %}
+{% block content %}
+
+<header class="dc-head">
+  <h1>Exercises <span class="count">{{ ex_list|length }}</span></h1>
+  <input class="dc-search" id="dcSearch" type="search" placeholder="Search…" autocomplete="off" spellcheck="false">
+  {% if all_tags %}
+  <div class="dc-filtertags" id="dcTagRow">
+    {% for t in all_tags %}
+    <button class="dc-tagbtn" data-tag="{{ t.name }}" type="button">{{ t.name }}</button>
+    {% endfor %}
+  </div>
+  {% endif %}
+</header>
+
+<section class="dc-list" id="dcList">
+  {% for ex in ex_list %}
+  <div class="ex dc-ex"
+       data-id="{{ ex.id }}"
+       data-name="{{ ex.name|lower }}"
+       data-tags="{{ ex.tags|join(',') }}">
+    <div class="ex-head" onclick="toggleDcEx(this)">
+      <div class="ex-name">
+        {{ ex.name }}
+        {% if ex.kind and ex.kind != 'main' %}<span class="dc-kind">{{ ex.kind }}</span>{% endif %}
+      </div>
+      <span class="ex-chev">▾</span>
+    </div>
+    <div class="ex-body" hidden>
+
+      {# ── View mode ── #}
+      <div class="dc-view" id="view-{{ ex.id }}">
+        {% if ex.detail %}<p class="ex-detail">{{ ex.detail }}</p>
+        {% else %}<p class="ex-detail muted">No detail yet.</p>{% endif %}
+        {% if ex.tags %}
+        <div class="ex-tags">{% for t in ex.tags %}<span class="tagchip">{{ t }}</span>{% endfor %}</div>
+        {% endif %}
+        {% if ex.variant %}<p class="dc-variant">{{ ex.variant }}</p>{% endif %}
+        <div class="dc-actions">
+          <button class="btn" type="button" onclick="startEdit({{ ex.id }})">Edit</button>
+          {% if not ex.in_use %}
+          <button class="btn danger" type="button" onclick="deleteEx({{ ex.id }}, this)">Delete</button>
+          {% endif %}
+        </div>
+      </div>
+
+      {# ── Edit mode ── #}
+      <div class="dc-edit" id="edit-{{ ex.id }}" hidden>
+        <div class="dc-field">
+          <label class="dc-label">Name</label>
+          <input class="dc-input" id="en-{{ ex.id }}" type="text" value="{{ ex.name }}">
+        </div>
+        <div class="dc-field">
+          <label class="dc-label">Kind</label>
+          <input class="dc-input" id="ek-{{ ex.id }}" type="text" value="{{ ex.kind }}" placeholder="main">
+        </div>
+        <div class="dc-field">
+          <label class="dc-label">Variant label</label>
+          <input class="dc-input" id="ev-{{ ex.id }}" type="text" value="{{ ex.variant }}" placeholder="optional">
+        </div>
+        <div class="dc-field">
+          <label class="dc-label">Detail</label>
+          <textarea class="dc-textarea" id="ed-{{ ex.id }}" rows="3">{{ ex.detail }}</textarea>
+        </div>
+        {% if all_tags %}
+        <div class="dc-field">
+          <label class="dc-label">Tags</label>
+          <div class="dc-tagchecks" id="etags-{{ ex.id }}">
+            {% for t in all_tags %}
+            <label class="dc-tagcheck">
+              <input type="checkbox" value="{{ t.id }}" {% if t.name in ex.tags %}checked{% endif %}>
+              {{ t.name }}
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        <div class="dc-edit-btns">
+          <button class="btn primary" type="button" onclick="saveEdit({{ ex.id }})">Save</button>
+          <button class="btn" type="button" onclick="cancelEdit({{ ex.id }})">Cancel</button>
+        </div>
+        <p class="dc-err" id="err-{{ ex.id }}" hidden></p>
+      </div>
+
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+{# ── Add new exercise ── #}
+<div class="dc-add-sec">
+  <div class="dc-add-panel" id="addPanel" hidden>
+    <div class="sec-label">New Exercise</div>
+    <div class="dc-field">
+      <label class="dc-label">Name <span class="dc-req">*</span></label>
+      <input class="dc-input" id="newName" type="text" placeholder="e.g. Max Hangs – Strength">
+    </div>
+    <div class="dc-field">
+      <label class="dc-label">Kind</label>
+      <input class="dc-input" id="newKind" type="text" placeholder="main">
+    </div>
+    <div class="dc-field">
+      <label class="dc-label">Variant label</label>
+      <input class="dc-input" id="newVariant" type="text" placeholder="optional">
+    </div>
+    <div class="dc-field">
+      <label class="dc-label">Detail</label>
+      <textarea class="dc-textarea" id="newDetail" rows="3" placeholder="Description…"></textarea>
+    </div>
+    {% if all_tags %}
+    <div class="dc-field">
+      <label class="dc-label">Tags</label>
+      <div class="dc-tagchecks" id="newTags">
+        {% for t in all_tags %}
+        <label class="dc-tagcheck">
+          <input type="checkbox" value="{{ t.id }}"> {{ t.name }}
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    <div class="dc-edit-btns">
+      <button class="btn primary" type="button" onclick="submitAdd()">Add Exercise</button>
+      <button class="btn" type="button" onclick="cancelAdd()">Cancel</button>
+    </div>
+    <p class="dc-err" id="addErr" hidden></p>
+  </div>
+  <button class="btn dc-add-btn" id="addBtn" type="button" onclick="showAdd()">+ Add Exercise</button>
+</div>
+
+<div class="pad"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+var activeTags = new Set();
+
+function filterEx() {
+  var q = document.getElementById('dcSearch').value.trim().toLowerCase();
+  var rows = document.querySelectorAll('.dc-ex');
+  rows.forEach(function(row) {
+    var matchQ = !q || row.dataset.name.indexOf(q) !== -1;
+    var tags = row.dataset.tags ? row.dataset.tags.split(',') : [];
+    var matchT = activeTags.size === 0 ||
+      Array.from(activeTags).every(function(t) { return tags.indexOf(t) !== -1; });
+    row.hidden = !(matchQ && matchT);
+  });
+}
+
+document.getElementById('dcSearch').addEventListener('input', filterEx);
+
+document.querySelectorAll('.dc-tagbtn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var tag = btn.dataset.tag;
+    activeTags[activeTags.has(tag) ? 'delete' : 'add'](tag);
+    btn.classList.toggle('on', activeTags.has(tag));
+    filterEx();
+  });
+});
+
+function toggleDcEx(head) {
+  var ex = head.closest('.ex');
+  var body = ex.querySelector('.ex-body');
+  var open = !body.hidden;
+  body.hidden = open;
+  ex.classList.toggle('open', !open);
+}
+
+function startEdit(id) {
+  document.getElementById('view-' + id).hidden = true;
+  document.getElementById('edit-' + id).hidden = false;
+  document.getElementById('err-' + id).hidden = true;
+}
+
+function cancelEdit(id) {
+  document.getElementById('edit-' + id).hidden = true;
+  document.getElementById('view-' + id).hidden = false;
+}
+
+function saveEdit(id) {
+  var name = document.getElementById('en-' + id).value.trim();
+  var kind = document.getElementById('ek-' + id).value.trim() || 'main';
+  var variant = document.getElementById('ev-' + id).value.trim();
+  var detail = document.getElementById('ed-' + id).value.trim();
+  var tagIds = Array.from(document.querySelectorAll('#etags-' + id + ' input:checked'))
+    .map(function(cb) { return parseInt(cb.value, 10); });
+  var errEl = document.getElementById('err-' + id);
+  if (!name) { showErr(errEl, 'Name is required'); return; }
+
+  fetch('/api/exercise/' + id, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name: name, kind: kind, variant_label: variant, detail: detail, tag_ids: tagIds})
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (!d.ok) { showErr(errEl, d.error); return; }
+    location.reload();
+  })
+  .catch(function() { showErr(errEl, 'Network error'); });
+}
+
+function deleteEx(id, btn) {
+  if (!confirm('Delete this exercise from the pool?')) return;
+  fetch('/api/exercise/' + id, {method: 'DELETE'})
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (!d.ok) { alert(d.error); return; }
+      var row = document.querySelector('.dc-ex[data-id="' + id + '"]');
+      if (row) row.remove();
+    });
+}
+
+function showAdd() {
+  document.getElementById('addBtn').hidden = true;
+  document.getElementById('addPanel').hidden = false;
+  document.getElementById('newName').focus();
+}
+
+function cancelAdd() {
+  document.getElementById('addPanel').hidden = true;
+  document.getElementById('addBtn').hidden = false;
+  ['newName','newKind','newVariant','newDetail'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
+  document.querySelectorAll('#newTags input').forEach(function(cb) { cb.checked = false; });
+  document.getElementById('addErr').hidden = true;
+}
+
+function submitAdd() {
+  var name = document.getElementById('newName').value.trim();
+  var kind = document.getElementById('newKind').value.trim() || 'main';
+  var variant = document.getElementById('newVariant').value.trim();
+  var detail = document.getElementById('newDetail').value.trim();
+  var tagIds = Array.from(document.querySelectorAll('#newTags input:checked'))
+    .map(function(cb) { return parseInt(cb.value, 10); });
+  var errEl = document.getElementById('addErr');
+  if (!name) { showErr(errEl, 'Name is required'); return; }
+
+  fetch('/api/exercise/new', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name: name, kind: kind, variant_label: variant, detail: detail, tag_ids: tagIds})
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (!d.ok) { showErr(errEl, d.error); return; }
+    location.reload();
+  })
+  .catch(function() { showErr(errEl, 'Network error'); });
+}
+
+function showErr(el, msg) {
+  el.textContent = msg;
+  el.hidden = false;
+}
+</script>
+{% endblock %}

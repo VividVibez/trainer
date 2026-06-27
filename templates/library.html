@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Session Library · Trainer{% endblock %}
+{% block content %}
+
+<header class="lib-head">
+  <h1>Library</h1>
+</header>
+
+{% for plan in plans %}
+<section class="lib-plan {% if plan.active %}lib-plan-on{% endif %}">
+  <div class="lib-plan-hd">
+    <span class="lib-plan-name">{{ plan.name }}</span>
+    {% if plan.active %}<span class="active-badge">Active</span>{% endif %}
+  </div>
+
+  {% for g in plan.groups %}
+  <div class="lib-group">
+    <div class="sec-label lib-group-label">
+      <span class="lib-dot" style="background:{{ g.phase_color }};"></span>
+      {{ g.phase_name }}
+    </div>
+    {% for s in g.sessions %}
+    <a class="scard lib-row t{{ s.type|lower }}" href="{{ url_for('pages.session_detail', session_id=s.id) }}">
+      <div class="scard-main lib-scard-main">
+        <span class="badge t{{ s.type|lower }}">{{ s.type }}</span>
+        <div class="scard-text">
+          <strong>{{ s.name }}</strong>
+          <span class="scard-meta">
+            {% if s.location %}{{ s.location }} · {% endif %}{{ s.ex_count }} exercise{{ 's' if s.ex_count != 1 }}
+          </span>
+        </div>
+        <span class="lib-chev">›</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</section>
+{% endfor %}
+
+<div class="pad"></div>
+{% endblock %}

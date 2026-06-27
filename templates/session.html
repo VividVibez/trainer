@@ -9,10 +9,8 @@
     <span class="badge t{{ s.type_letter|lower }}">{{ s.type_letter }}</span>
     <h1>{{ s.name }}</h1>
   </div>
-  {% if reorderable >= 2 %}
   <button class="nav-btn" id="reorgBtn" aria-label="Reorganise exercises">⋮</button>
   <button class="btn primary sd-done" id="doneBtn" hidden>Done</button>
-  {% endif %}
 </header>
 
 <div class="sd-meta">
@@ -28,7 +26,7 @@
 
 <section class="sd-list" id="exList">
   {% for it in items %}
-  <div class="ex {{ 'locked' if it.locked }}" data-lid="{{ it.lid }}" data-locked="{{ '1' if it.locked else '0' }}">
+  <div class="ex {{ 'locked' if it.locked }}" data-lid="{{ it.lid }}" data-locked="{{ '1' if it.locked else '0' }}" data-eid="{{ it.eid }}" data-ename="{{ it.name }}" data-ekind="{{ it.kind or 'main' }}">
     <div class="ex-head" onclick="toggleEx(this)">
       <span class="ex-grip" aria-hidden="true">⋮⋮</span>
       <div class="ex-name">
@@ -38,6 +36,7 @@
       <span class="ex-reorder" hidden>
         <button class="rbtn up" type="button" aria-label="Move up">↑</button>
         <button class="rbtn down" type="button" aria-label="Move down">↓</button>
+        <button class="rbtn remove" type="button" aria-label="Remove exercise">×</button>
       </span>
       <span class="ex-chev">▾</span>
     </div>
@@ -49,13 +48,27 @@
   {% endfor %}
 </section>
 
+{% if add_pool %}
+<div class="sd-add-open-wrap" id="sdAddOpenWrap" hidden>
+  <button class="btn sd-add-open" id="sdAddBtn" type="button" onclick="openAddPanel()">+ Add Exercise</button>
+</div>
+<div class="sd-add-panel" id="sdAddPanel" hidden>
+  <input class="sd-add-search" id="sdAddSearch" type="search" placeholder="Search exercises…" autocomplete="off" spellcheck="false">
+  <div class="sd-add-results" id="sdAddResults"></div>
+  <button class="btn sd-add-cancel" type="button" onclick="closeAddPanel()">Cancel</button>
+</div>
+{% endif %}
+
 <div class="pad"></div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-function toggleEx(head){
-  if (document.body.classList.contains('reorg')) return;   // no expanding while reorganising
+var SID = {{ s.id }};
+var ADD_POOL = {{ add_pool|tojson }};
+
+function toggleEx(head) {
+  if (document.body.classList.contains('reorg')) return;
   var ex = head.closest('.ex');
   var body = ex.querySelector('.ex-body');
   var open = !body.hidden;
@@ -63,62 +76,207 @@ function toggleEx(head){
   ex.classList.toggle('open', !open);
 }
 
-(function(){
+(function () {
   var reorgBtn = document.getElementById('reorgBtn');
-  if (!reorgBtn) return;                                    // <2 reorderable: no reorganise mode
-  var doneBtn = document.getElementById('doneBtn');
-  var list = document.getElementById('exList');
-  var SID = {{ s.id }};
+  var doneBtn  = document.getElementById('doneBtn');
+  var list     = document.getElementById('exList');
+  var addWrap  = document.getElementById('sdAddOpenWrap');
 
-  function middleEls(){
-    return Array.prototype.filter.call(list.children, function(ex){ return ex.dataset.locked === '0'; });
+  function middleEls() {
+    return Array.from(list.children).filter(function (ex) { return ex.dataset.locked === '0'; });
   }
-  function updateArrows(){
+
+  function updateArrows() {
     var mids = middleEls();
-    mids.forEach(function(ex, i){
-      var up = ex.querySelector('.rbtn.up'), dn = ex.querySelector('.rbtn.down');
-      up.disabled = (i === 0);
-      dn.disabled = (i === mids.length - 1);
+    mids.forEach(function (ex, i) {
+      var up = ex.querySelector('.rbtn.up');
+      var dn = ex.querySelector('.rbtn.down');
+      if (up) up.disabled = (i === 0);
+      if (dn) dn.disabled = (i === mids.length - 1);
     });
   }
-  function setReorg(on){
+
+  function setReorg(on) {
     document.body.classList.toggle('reorg', on);
     reorgBtn.hidden = on;
-    doneBtn.hidden = !on;
-    list.querySelectorAll('.ex').forEach(function(ex){
+    doneBtn.hidden  = !on;
+    if (addWrap) addWrap.hidden = !on;
+    if (!on) closeAddPanel();
+    list.querySelectorAll('.ex').forEach(function (ex) {
       ex.classList.remove('open');
       ex.querySelector('.ex-body').hidden = true;
-      ex.querySelector('.ex-reorder').hidden = on ? (ex.dataset.locked === '1') : true;
+      var reorderEl = ex.querySelector('.ex-reorder');
+      if (reorderEl) reorderEl.hidden = on ? ex.dataset.locked === '1' : true;
     });
     if (on) updateArrows();
   }
-  reorgBtn.onclick = function(){ setReorg(true); };
-  doneBtn.onclick = function(){ setReorg(false); };
 
-  function persist(){
-    var order = middleEls().map(function(ex){ return parseInt(ex.dataset.lid, 10); });
+  reorgBtn.onclick = function () { setReorg(true); };
+  doneBtn.onclick  = function () { setReorg(false); };
+
+  function persist() {
+    var order = middleEls().map(function (ex) { return parseInt(ex.dataset.lid, 10); });
     fetch('/session/' + SID + '/reorder', {
       method: 'POST', headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({order: order})
-    }).catch(function(){ /* best-effort; order is also visible in the DOM */ });
+    }).catch(function () {});
   }
 
-  list.addEventListener('click', function(e){
+  list.addEventListener('click', function (e) {
     var btn = e.target.closest('.rbtn');
     if (!btn || btn.disabled) return;
     var ex = btn.closest('.ex');
-    if (btn.classList.contains('up')){
+
+    if (btn.classList.contains('up')) {
       var prev = ex.previousElementSibling;
       while (prev && prev.dataset.locked === '1') prev = prev.previousElementSibling;
       if (prev) list.insertBefore(ex, prev);
-    } else {
+      updateArrows(); persist();
+
+    } else if (btn.classList.contains('down')) {
       var next = ex.nextElementSibling;
       while (next && next.dataset.locked === '1') next = next.nextElementSibling;
       if (next) list.insertBefore(next, ex);
+      updateArrows(); persist();
+
+    } else if (btn.classList.contains('remove')) {
+      var lid = parseInt(ex.dataset.lid, 10);
+      var exId   = parseInt(ex.dataset.eid, 10);
+      var exName = ex.dataset.ename;
+      var exKind = ex.dataset.ekind || 'main';
+      fetch('/session/' + SID + '/exercises/' + lid, {method: 'DELETE'})
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (!d.ok) { alert(d.error); return; }
+          ADD_POOL.push({id: exId, name: exName, kind: exKind});
+          ADD_POOL.sort(function(a, b) { return a.name.localeCompare(b.name); });
+          ex.remove();
+          updateArrows();
+          updateCount();
+        })
+        .catch(function () { alert('Network error'); });
     }
-    updateArrows();
-    persist();
   });
 })();
+
+// ── Add-exercise panel ────────────────────────────────────────────────────────
+
+function openAddPanel() {
+  var panel = document.getElementById('sdAddPanel');
+  var wrap  = document.getElementById('sdAddOpenWrap');
+  if (!panel) return;
+  panel.hidden = false;
+  wrap.hidden = true;
+  renderAddResults('');
+  document.getElementById('sdAddSearch').focus();
+}
+
+function closeAddPanel() {
+  var panel = document.getElementById('sdAddPanel');
+  var wrap  = document.getElementById('sdAddOpenWrap');
+  if (!panel) return;
+  panel.hidden = true;
+  if (wrap && !document.getElementById('doneBtn').hidden) wrap.hidden = false;
+  document.getElementById('sdAddSearch').value = '';
+  document.getElementById('sdAddResults').innerHTML = '';
+}
+
+function renderAddResults(q) {
+  q = q.trim().toLowerCase();
+  var filtered = ADD_POOL.filter(function (e) {
+    return !q || e.name.toLowerCase().indexOf(q) !== -1;
+  }).slice(0, 20);
+  var results = document.getElementById('sdAddResults');
+  if (!filtered.length) {
+    results.innerHTML = '<p class="sd-add-empty">No matches</p>';
+    return;
+  }
+  results.innerHTML = filtered.map(function (e) {
+    var kind = (e.kind && e.kind !== 'main') ? ' <span class="dc-kind">' + esc(e.kind) + '</span>' : '';
+    return '<button class="sd-add-item" data-id="' + e.id + '" type="button">' +
+           esc(e.name) + kind + '</button>';
+  }).join('');
+}
+
+var sdSearch = document.getElementById('sdAddSearch');
+if (sdSearch) sdSearch.addEventListener('input', function () { renderAddResults(this.value); });
+
+var sdResults = document.getElementById('sdAddResults');
+if (sdResults) sdResults.addEventListener('click', function (e) {
+  var btn = e.target.closest('.sd-add-item');
+  if (!btn) return;
+  btn.disabled = true;
+  var ex_id = parseInt(btn.dataset.id, 10);
+  fetch('/session/' + SID + '/exercises/add', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({exercise_id: ex_id})
+  })
+  .then(function (r) { return r.json(); })
+  .then(function (d) {
+    if (!d.ok) { alert(d.error); btn.disabled = false; return; }
+    insertExRow(d);
+    ADD_POOL = ADD_POOL.filter(function (e) { return e.id !== d.exercise_id; });
+    closeAddPanel();
+    document.getElementById('sdAddOpenWrap').hidden = false;
+  })
+  .catch(function () { alert('Network error'); btn.disabled = false; });
+});
+
+function updateCount() {
+  var countEl = document.querySelector('.sd-seclabel .count');
+  if (countEl) countEl.textContent = document.getElementById('exList').children.length;
+}
+
+function insertExRow(d) {
+  var list = document.getElementById('exList');
+  var tags = (d.tags || []).map(function(t){ return '<span class="tagchip">' + esc(t) + '</span>'; }).join('');
+  var detail = d.detail ? '<p class="ex-detail">' + esc(d.detail) + '</p>'
+                        : '<p class="ex-detail muted">No detail yet.</p>';
+  var html = '<div class="ex" data-lid="' + d.lid + '" data-locked="0">' +
+    '<div class="ex-head" onclick="toggleEx(this)">' +
+    '<span class="ex-grip" aria-hidden="true">⋮⋮</span>' +
+    '<div class="ex-name">' + esc(d.name) + '</div>' +
+    '<span class="ex-reorder">' +
+    '<button class="rbtn up" type="button" aria-label="Move up">↑</button>' +
+    '<button class="rbtn down" type="button" aria-label="Move down">↓</button>' +
+    '<button class="rbtn remove" type="button" aria-label="Remove exercise">×</button>' +
+    '</span>' +
+    '<span class="ex-chev">▾</span>' +
+    '</div>' +
+    '<div class="ex-body" hidden>' + detail +
+    (tags ? '<div class="ex-tags">' + tags + '</div>' : '') +
+    '</div></div>';
+  var tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  var newEl = tmp.firstElementChild;
+  newEl.dataset.eid   = d.exercise_id;
+  newEl.dataset.ename = d.name;
+  newEl.dataset.ekind = d.kind || 'main';
+
+  // Insert after the last non-locked, before trailing locked cool-downs
+  var children = Array.from(list.children);
+  var lastNonLocked = null;
+  children.forEach(function(el) { if (el.dataset.locked === '0') lastNonLocked = el; });
+  var insertBefore = lastNonLocked ? lastNonLocked.nextElementSibling : null;
+  if (insertBefore) list.insertBefore(newEl, insertBefore);
+  else list.appendChild(newEl);
+
+  // Reorg mode: show controls on new row immediately
+  if (document.body.classList.contains('reorg')) {
+    newEl.querySelector('.ex-reorder').hidden = false;
+  }
+  // Update arrow disabled states
+  var mids = Array.from(list.children).filter(function(e){ return e.dataset.locked==='0'; });
+  mids.forEach(function(ex, i) {
+    var up = ex.querySelector('.rbtn.up'), dn = ex.querySelector('.rbtn.down');
+    if (up) up.disabled = (i === 0);
+    if (dn) dn.disabled = (i === mids.length - 1);
+  });
+  updateCount();
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 </script>
 {% endblock %}

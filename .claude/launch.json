@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "trainer",
+      "runtimeExecutable": "venv/Scripts/python.exe",
+      "runtimeArgs": ["-m", "flask", "--app", "app:app", "run", "--port", "5050"],
+      "port": 5050,
+      "autoPort": false
+    }
+  ]
+}
