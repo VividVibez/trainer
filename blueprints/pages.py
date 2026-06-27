@@ -15,8 +15,36 @@ bp = Blueprint("pages", __name__)
 
 @bp.get("/phases")
 def phases():
-    return render_template("stub.html", title="Phases Overview",
-                           note="Full phase breakdown lands in Stage 5.",
+    import planweek as pw
+    from seed.io import get_active_plan
+    plan = get_active_plan()
+    if not plan:
+        return render_template("stub.html", title="Phases Overview",
+                               note="No active plan seeded yet.", active="phases")
+    start_setting = db.session.get(Setting, "plan_start_date")
+    start = pw.parse_start(start_setting.value if start_setting else None)
+    current_week = pw.current_week_number(start, total=plan.weeks)
+    phase_data = []
+    for ph in sorted(plan.phases, key=lambda p: p.order_index):
+        deload_weeks = [w.week_number for w in ph.weeks if w.is_deload]
+        phase_data.append({
+            "slug": ph.slug,
+            "name": ph.name,
+            "header_label": ph.header_label,
+            "subtitle": ph.subtitle or "",
+            "week_start": ph.week_start,
+            "week_end": ph.week_end,
+            "color": ph.color,
+            "goal": ph.goal or "",
+            "overview": ph.overview or "",
+            "deload_note": ph.deload_note or "",
+            "deload_weeks": deload_weeks,
+            "is_current": ph.week_start <= current_week <= ph.week_end,
+            "is_past": ph.week_end < current_week,
+        })
+    return render_template("phases.html",
+                           plan=plan, phases=phase_data,
+                           current_week=current_week,
                            active="phases")
 
 

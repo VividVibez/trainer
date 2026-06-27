@@ -7,7 +7,8 @@
   {% set s = a.session %}
   <div class="scard t{{ s.type_letter|lower }}{{ ' done' if a.is_done }}"
        data-aid="{{ a.id }}" data-type="{{ s.type_letter }}">
-    <div class="scard-main" {% if placed %}onclick="location.href='{{ url_for('pages.session_detail', session_id=s.id) }}'"{% endif %}>
+    <div class="scard-main" onclick="location.href='{{ url_for('pages.session_detail', session_id=s.id) }}'"
+         title="View {{ s.name }}">
       <span class="badge t{{ s.type_letter|lower }}">{{ s.type_letter }}</span>
       <span class="scard-text">
         <strong>{{ s.name }}</strong>

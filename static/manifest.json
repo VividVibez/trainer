@@ -1,0 +1,17 @@
+{
+  "name": "Trainer",
+  "short_name": "Trainer",
+  "description": "Climbing training planner",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#FF5500",
+  "icons": [
+    {
+      "src": "/static/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

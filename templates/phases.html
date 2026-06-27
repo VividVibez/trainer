@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Phases · Trainer{% endblock %}
+{% block content %}
+
+<header class="ph-head">
+  <h1>Phases</h1>
+  <div class="ph-plan-info">{{ plan.name }} · {{ plan.weeks }} wk</div>
+</header>
+
+<section class="ph-list">
+  {% for ph in phases %}
+  <div class="ph-card {% if ph.is_current %}ph-current{% elif ph.is_past %}ph-past{% endif %}"
+       id="{{ ph.slug }}" style="--phc: {{ ph.color }};">
+
+    <div class="ph-top" onclick="togglePhase(this)">
+      <span class="ph-stripe"></span>
+      <div class="ph-label">
+        {% if ph.is_current %}
+        <span class="ph-now">Now</span>
+        {% endif %}
+        <span class="ph-name">{{ ph.header_label }}</span>
+        {% if ph.subtitle %}<span class="ph-sub">{{ ph.subtitle }}</span>{% endif %}
+      </div>
+      <span class="ph-range">W{{ ph.week_start }}–{{ ph.week_end }}</span>
+      <span class="ph-chev">▾</span>
+    </div>
+
+    <div class="ph-body" hidden>
+      {% if ph.goal %}
+      <div class="ph-section">
+        <div class="ph-sec-label">Goal</div>
+        <p class="ph-text">{{ ph.goal }}</p>
+      </div>
+      {% endif %}
+      {% if ph.overview %}
+      <div class="ph-section">
+        <div class="ph-sec-label">Overview</div>
+        <p class="ph-text">{{ ph.overview }}</p>
+      </div>
+      {% endif %}
+      {% if ph.deload_weeks %}
+      <div class="ph-section">
+        <div class="ph-sec-label">Deload</div>
+        <div class="ph-deload-row">
+          {% for wn in ph.deload_weeks %}
+          <span class="ph-deload-chip {% if wn == current_week %}ph-deload-now{% endif %}">W{{ wn }}</span>
+          {% endfor %}
+          {% if ph.deload_note %}<span class="ph-deload-note">{{ ph.deload_note }}</span>{% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+  {% endfor %}
+</section>
+
+<div class="pad"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function togglePhase(top) {
+  var card = top.closest('.ph-card');
+  var body = card.querySelector('.ph-body');
+  var open = !body.hidden;
+  body.hidden = open;
+  card.classList.toggle('ph-open', !open);
+}
+
+// Auto-expand the phase linked by URL hash
+(function () {
+  var hash = location.hash.slice(1);
+  if (!hash) return;
+  var card = document.getElementById(hash);
+  if (!card) return;
+  var body = card.querySelector('.ph-body');
+  if (body) { body.hidden = false; card.classList.add('ph-open'); }
+})();
+</script>
+{% endblock %}
