@@ -33,6 +33,7 @@
         {{ it.name }}
         {% if it.locked %}<span class="ex-lock" title="Pinned in place">pinned</span>{% endif %}
       </div>
+      {% if it.duration %}<span class="ex-dur">{{ it.duration }}</span>{% endif %}
       <span class="ex-reorder" hidden>
         <button class="rbtn up" type="button" aria-label="Move up">↑</button>
         <button class="rbtn down" type="button" aria-label="Move down">↓</button>
@@ -41,7 +42,19 @@
       <span class="ex-chev">▾</span>
     </div>
     <div class="ex-body" hidden>
-      {% if it.detail %}<p class="ex-detail">{{ it.detail }}</p>{% else %}<p class="ex-detail muted">No detail yet.</p>{% endif %}
+      {% if it.steps %}
+        <ol class="ex-steps">
+          {% for step in it.steps %}<li>{{ step }}</li>{% endfor %}
+        </ol>
+        {% if it.detail %}
+          <div class="ex-notes-label">Notes</div>
+          <p class="ex-detail">{{ it.detail }}</p>
+        {% endif %}
+      {% elif it.detail %}
+        <p class="ex-detail">{{ it.detail }}</p>
+      {% else %}
+        <p class="ex-detail muted">No detail yet.</p>
+      {% endif %}
       {% if it.tags %}<div class="ex-tags">{% for t in it.tags %}<span class="tagchip">{{ t }}</span>{% endfor %}</div>{% endif %}
     </div>
   </div>
@@ -230,12 +243,22 @@ function updateCount() {
 function insertExRow(d) {
   var list = document.getElementById('exList');
   var tags = (d.tags || []).map(function(t){ return '<span class="tagchip">' + esc(t) + '</span>'; }).join('');
-  var detail = d.detail ? '<p class="ex-detail">' + esc(d.detail) + '</p>'
-                        : '<p class="ex-detail muted">No detail yet.</p>';
+  var durBadge = d.duration ? '<span class="ex-dur">' + esc(d.duration) + '</span>' : '';
+  var steps = d.steps || [];
+  var body;
+  if (steps.length) {
+    var lis = steps.map(function(s){ return '<li>' + esc(s) + '</li>'; }).join('');
+    body = '<ol class="ex-steps">' + lis + '</ol>';
+    if (d.detail) body += '<div class="ex-notes-label">Notes</div><p class="ex-detail">' + esc(d.detail) + '</p>';
+  } else {
+    body = d.detail ? '<p class="ex-detail">' + esc(d.detail) + '</p>'
+                    : '<p class="ex-detail muted">No detail yet.</p>';
+  }
   var html = '<div class="ex" data-lid="' + d.lid + '" data-locked="0">' +
     '<div class="ex-head" onclick="toggleEx(this)">' +
     '<span class="ex-grip" aria-hidden="true">⋮⋮</span>' +
     '<div class="ex-name">' + esc(d.name) + '</div>' +
+    durBadge +
     '<span class="ex-reorder">' +
     '<button class="rbtn up" type="button" aria-label="Move up">↑</button>' +
     '<button class="rbtn down" type="button" aria-label="Move down">↓</button>' +
@@ -243,7 +266,7 @@ function insertExRow(d) {
     '</span>' +
     '<span class="ex-chev">▾</span>' +
     '</div>' +
-    '<div class="ex-body" hidden>' + detail +
+    '<div class="ex-body" hidden>' + body +
     (tags ? '<div class="ex-tags">' + tags + '</div>' : '') +
     '</div></div>';
   var tmp = document.createElement('div');

@@ -46,7 +46,10 @@ def load_exercises(data, *, update_existing=False):
         ex = existing or Exercise(name=name)
         ex.variant_label = e.get("variant_label")
         ex.kind = e.get("kind", "main")
+        ex.duration = e.get("duration") or None
         ex.detail = e.get("detail", "")
+        raw_steps = e.get("steps") or []
+        ex.steps = "\n".join(s for s in raw_steps if s) if raw_steps else None
         ex.tags = [_tag(t, cache) for t in e.get("tags", [])]
         if existing:
             updated.append(name)
@@ -193,6 +196,8 @@ def export_exercises():
         "tags": sorted(t.name for t in Tag.query.all()),
         "exercises": [{
             "name": e.name, "variant_label": e.variant_label, "kind": e.kind,
+            "duration": e.duration,
+            "steps": [s for s in (e.steps or "").split("\n") if s] or None,
             "detail": e.detail, "tags": sorted(t.name for t in e.tags),
         } for e in Exercise.query.order_by(Exercise.id)],
     }
