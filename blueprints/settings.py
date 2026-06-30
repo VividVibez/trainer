@@ -13,7 +13,7 @@ from flask import (Blueprint, render_template, request, redirect, url_for,
                    Response, abort, jsonify)
 
 from extensions import db
-from models import Plan, Week, Session, Exercise, DayAssignment, Setting
+from models import Plan, Week, Session, Exercise, SessionExercise, DayAssignment, Setting, exercise_tags
 from seed.io import (get_active_plan, set_active_plan, export_plan,
                      export_exercises, delete_plan, duplicate_plan,
                      load_plan, load_exercises, preview_plan, preview_exercises,
@@ -164,8 +164,18 @@ def exercises_import():
     data, err = _json_body()
     if err:
         return err
+    mode = request.args.get("mode", "skip")
     try:
-        res = load_exercises(data)
+        res = load_exercises(data, update_existing=(mode == "overwrite"))
         return jsonify(ok=True, added=len(res["added"]), skipped=len(res["skipped"]))
     except PlanImportError as e:
         return jsonify(ok=False, error=str(e))
+
+
+@bp.post("/settings/exercises/clear")
+def exercises_clear():
+    SessionExercise.query.delete(synchronize_session=False)
+    db.session.execute(exercise_tags.delete())
+    Exercise.query.delete(synchronize_session=False)
+    db.session.commit()
+    return redirect(url_for("settings.settings"))

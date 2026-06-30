@@ -59,6 +59,10 @@
     <input type="file" id="exFile" accept=".json,application/json" hidden>
     <button class="btn" type="button" onclick="document.getElementById('exFile').click()">Upload exercises</button>
     <a class="btn" href="{{ url_for('settings.export_ex') }}">Export</a>
+    <form method="post" action="{{ url_for('settings.exercises_clear') }}"
+          onsubmit="return confirm('Delete all {{ exercise_count }} exercise(s) from the pool? This also removes their links from all sessions and cannot be undone.');">
+      <button class="btn danger" type="submit" {{ 'disabled' if exercise_count == 0 }}>Clear all</button>
+    </form>
   </div>
   <div class="upload-panel" id="exPanel" hidden></div>
 </section>
@@ -140,11 +144,59 @@ function planSummary(s){
     ? '<div class="up-warn">Clears ' + s.placements_wiped + ' day placement(s) on that plan.</div>' : '';
   return '<div class="up-msg">' + head + '<br>' + s.weeks + ' weeks \u00B7 ' + s.phases + ' phases \u00B7 ' + s.sessions + ' sessions.</div>' + warn;
 }
-function exSummary(s){
-  return '<div class="up-msg">Adds <strong>' + s.added.length + '</strong> new exercise(s); skips <strong>' + s.skipped.length + '</strong> already in the pool.</div>';
+function setupExUploader(fileId, panelId, previewUrl, importUrl) {
+  var input = document.getElementById(fileId);
+  var panel = document.getElementById(panelId);
+  input.addEventListener("change", function() {
+    if (!input.files.length) return;
+    var file = input.files[0];
+    panel.hidden = false;
+    panel.innerHTML = '<div class="up-msg">Reading…</div>';
+    readJSON(file).then(function(data) {
+      postJSON(previewUrl, data).then(function(resp) {
+        if (!resp.ok) { panel.innerHTML = upErr(resp.error); return; }
+        var s = resp.summary;
+        var hasDupes = s.skipped.length > 0;
+        var msg = '<div class="up-msg">Adds <strong>' + s.added.length + '</strong> new exercise(s)' +
+          (hasDupes ? '; <strong>' + s.skipped.length + '</strong> already in the pool.' : '.') + '</div>';
+        var btns;
+        if (hasDupes) {
+          btns = '<div class="up-actions">' +
+            '<button class="btn" id="' + panelId + '-cancel">Cancel</button>' +
+            '<button class="btn primary" id="' + panelId + '-skip">Ignore duplicates</button>' +
+            '<button class="btn" id="' + panelId + '-over">Overwrite duplicates</button>' +
+            '</div>';
+        } else {
+          btns = '<div class="up-actions">' +
+            '<button class="btn primary" id="' + panelId + '-go">Confirm import</button>' +
+            '<button class="btn" id="' + panelId + '-cancel">Cancel</button>' +
+            '</div>';
+        }
+        panel.innerHTML = msg + btns;
+        function doImport(btnId, url) {
+          document.getElementById(btnId).onclick = function() {
+            var btn = document.getElementById(btnId);
+            btn.disabled = true; btn.textContent = "Importing…";
+            postJSON(url, data).then(function(ir) {
+              if (ir.ok) { location.reload(); }
+              else { panel.innerHTML = upErr(ir.error); }
+            }).catch(function() { panel.innerHTML = upErr("Server error during import."); });
+          };
+        }
+        document.getElementById(panelId + '-cancel').onclick = function() { panel.hidden = true; input.value = ""; };
+        if (hasDupes) {
+          doImport(panelId + '-skip', importUrl + '?mode=skip');
+          doImport(panelId + '-over', importUrl + '?mode=overwrite');
+        } else {
+          doImport(panelId + '-go', importUrl);
+        }
+      }).catch(function() { panel.innerHTML = upErr("Server error during preview."); });
+    }).catch(function(err) { panel.innerHTML = upErr(err); });
+    input.value = "";
+  });
 }
 
 setupUploader("planFile", "planPanel", "{{ url_for('settings.plan_preview') }}", "{{ url_for('settings.plan_import') }}", planSummary);
-setupUploader("exFile", "exPanel", "{{ url_for('settings.exercises_preview') }}", "{{ url_for('settings.exercises_import') }}", exSummary);
+setupExUploader("exFile", "exPanel", "{{ url_for('settings.exercises_preview') }}", "{{ url_for('settings.exercises_import') }}");
 </script>
 {% endblock %}
