@@ -33,17 +33,51 @@
           <button class="btn" type="button" onclick="dupPlan(this, {{ p.name|tojson }})">Duplicate</button>
         </form>
         <a class="btn" href="{{ url_for('settings.export_pl', key=p.key) }}">Export</a>
+        <form method="post" action="{{ url_for('settings.archive') }}"
+              onsubmit="return confirm('Archive \u201c{{ p.name }}\u201d? It will be hidden from the plan list but can be restored from the archived section.');">
+          <input type="hidden" name="key" value="{{ p.key }}">
+          <button class="btn" type="submit" {{ 'disabled' if p.active }}>Archive</button>
+        </form>
         <form method="post" action="{{ url_for('settings.delete') }}"
               onsubmit="return confirm('Delete \u201c{{ p.name }}\u201d? This removes the plan and its day placements and cannot be undone.');">
           <input type="hidden" name="key" value="{{ p.key }}">
           <button class="btn danger" type="submit" {{ 'disabled' if (p.active or plan_count <= 1) }}>Delete</button>
         </form>
       </div>
-      {% if p.active and plan_count > 1 %}<div class="plan-tip">Switch to another plan before deleting this one.</div>{% endif %}
-      {% if plan_count <= 1 %}<div class="plan-tip">The only plan can't be deleted.</div>{% endif %}
+      {% if p.active %}<div class="plan-tip">Switch to another plan before archiving or deleting this one.</div>
+      {% elif plan_count <= 1 %}<div class="plan-tip">The only live plan can't be deleted.</div>{% endif %}
     </div>
     {% endfor %}
   </div>
+
+  {% if archived_plans %}
+  <div class="arc-toggle" id="arcToggle" onclick="toggleArchive()">
+    Archived <span class="count">{{ archived_plans|length }}</span>
+    <span class="arc-chev" id="arcChev">\u25be</span>
+  </div>
+  <div class="arc-list" id="arcList" hidden>
+    {% for p in archived_plans %}
+    <div class="plan-card arc-card">
+      <div class="plan-top">
+        <div class="plan-name">{{ p.name }} <span class="arc-badge">Archived</span></div>
+      </div>
+      <div class="plan-meta">{{ p.key }} \u00b7 {{ p.weeks }} wk \u00b7 {{ p.sessions }} sessions</div>
+      <div class="plan-actions">
+        <form method="post" action="{{ url_for('settings.restore') }}">
+          <input type="hidden" name="key" value="{{ p.key }}">
+          <button class="btn primary" type="submit">Restore</button>
+        </form>
+        <a class="btn" href="{{ url_for('settings.export_pl', key=p.key) }}">Export</a>
+        <form method="post" action="{{ url_for('settings.delete') }}"
+              onsubmit="return confirm('Permanently delete \u201c{{ p.name }}\u201d and all its day placements? This cannot be undone.');">
+          <input type="hidden" name="key" value="{{ p.key }}">
+          <button class="btn danger" type="submit">Delete</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
 
   <div class="upload-row">
     <input type="file" id="planFile" accept=".json,application/json" hidden>
@@ -198,5 +232,13 @@ function setupExUploader(fileId, panelId, previewUrl, importUrl) {
 
 setupUploader("planFile", "planPanel", "{{ url_for('settings.plan_preview') }}", "{{ url_for('settings.plan_import') }}", planSummary);
 setupExUploader("exFile", "exPanel", "{{ url_for('settings.exercises_preview') }}", "{{ url_for('settings.exercises_import') }}");
+
+function toggleArchive() {
+  var list = document.getElementById('arcList');
+  var chev = document.getElementById('arcChev');
+  if (!list) return;
+  list.hidden = !list.hidden;
+  chev.textContent = list.hidden ? '▾' : '▴';
+}
 </script>
 {% endblock %}

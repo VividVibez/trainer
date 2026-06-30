@@ -42,6 +42,7 @@ class Plan(db.Model):
     count_even = db.Column(db.Integer, default=3)                 # parity: centre count on even weeks
     toggle_options = db.Column(db.String(40), default="3,4")      # csv of allowed toggle values
     order_index = db.Column(db.Integer, default=0)               # display order in Settings
+    is_archived = db.Column(db.Boolean, default=False, nullable=False)
 
     phases = db.relationship("Phase", backref="plan", order_by="Phase.order_index",
                              cascade="all, delete-orphan")

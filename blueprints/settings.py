@@ -45,17 +45,24 @@ def _download(doc, filename):
 @bp.get("/settings")
 def settings():
     active = get_active_plan()
-    plans = Plan.query.order_by(Plan.order_index, Plan.id).all()
+    all_plans = Plan.query.order_by(Plan.order_index, Plan.id).all()
     start = db.session.get(Setting, "plan_start_date")
-    rows = [{
-        "key": p.key, "name": p.name, "weeks": p.weeks,
-        "phases": len(p.phases),
-        "sessions": Session.query.filter_by(plan_id=p.id).count(),
-        "placed": _placements(p),
-        "active": bool(active and p.key == active.key),
-    } for p in plans]
+
+    def _row(p):
+        return {
+            "key": p.key, "name": p.name, "weeks": p.weeks,
+            "phases": len(p.phases),
+            "sessions": Session.query.filter_by(plan_id=p.id).count(),
+            "placed": _placements(p),
+            "active": bool(active and p.key == active.key),
+            "archived": bool(p.is_archived),
+        }
+
+    live_plans = [_row(p) for p in all_plans if not p.is_archived]
+    archived_plans = [_row(p) for p in all_plans if p.is_archived]
     return render_template("settings.html", active="settings",
-                           plans=rows, plan_count=len(rows),
+                           plans=live_plans, plan_count=len(live_plans),
+                           archived_plans=archived_plans,
                            exercise_count=Exercise.query.count(),
                            start_date=(start.value if start else ""))
 
@@ -85,6 +92,25 @@ def delete():
     if active and p.key == active.key:
         abort(400)                              # switch away first
     delete_plan(p)
+    return redirect(url_for("settings.settings"))
+
+
+@bp.post("/settings/archive")
+def archive():
+    p = _plan_or_404(request.form.get("key"))
+    active = get_active_plan()
+    if active and p.key == active.key:
+        abort(400)                              # can't archive the active plan
+    p.is_archived = True
+    db.session.commit()
+    return redirect(url_for("settings.settings"))
+
+
+@bp.post("/settings/restore")
+def restore():
+    p = _plan_or_404(request.form.get("key"))
+    p.is_archived = False
+    db.session.commit()
     return redirect(url_for("settings.settings"))
 
 
