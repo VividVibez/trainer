@@ -158,7 +158,9 @@ class Exercise(db.Model):
     name = db.Column(db.String(80), unique=True, nullable=False)
     variant_label = db.Column(db.String(40))
     kind = db.Column(db.String(12), default="main")
-    detail = db.Column(db.Text)
+    duration = db.Column(db.String(40))    # e.g. "15 min", shown in collapsed header
+    detail = db.Column(db.Text)            # coaching notes / fallback paragraph
+    steps = db.Column(db.Text)            # newline-delimited steps; renders as numbered list
 
     tags = db.relationship("Tag", secondary=exercise_tags, backref="exercises")
     links = db.relationship("SessionExercise", backref="exercise")

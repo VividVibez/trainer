@@ -116,7 +116,9 @@ def session_detail(session_id):
         "name": l.exercise.name,
         "variant": l.exercise.variant_label,
         "kind": l.exercise.kind,
+        "duration": l.exercise.duration,
         "detail": l.exercise.detail,
+        "steps": [s for s in (l.exercise.steps or "").split("\n") if s],
         "tags": [t.name for t in l.exercise.tags],
         "locked": bool(l.is_locked),
     } for l in links]
@@ -184,7 +186,9 @@ def session_exercise_add(session_id):
     return jsonify(ok=True, lid=link.id, exercise_id=ex_id,
                    name=e.name, kind=e.kind or "main",
                    variant=e.variant_label or "",
+                   duration=e.duration or "",
                    detail=e.detail or "",
+                   steps=[s for s in (e.steps or "").split("\n") if s],
                    tags=[t.name for t in e.tags])
 
 

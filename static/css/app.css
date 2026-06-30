@@ -516,6 +516,13 @@ button:focus-visible, a:focus-visible {
   letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
   border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px;
 }
+.ex-dur {
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--text); opacity: .55;
+  border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px;
+  flex-shrink: 0;
+}
 .ex-chev { color: var(--muted); font-size: 13px; transition: transform .2s; flex-shrink: 0; }
 .ex.open .ex-chev { transform: rotate(180deg); }
 
@@ -532,6 +539,34 @@ button:focus-visible, a:focus-visible {
 .ex-body { padding: 0 14px 14px; border-top: 1px solid var(--border); }
 .ex-detail { font-size: 13px; line-height: 1.6; color: var(--text); opacity: .85; padding-top: 12px; }
 .ex-detail.muted { color: var(--muted); font-style: italic; opacity: 1; }
+
+.ex-steps {
+  list-style: none; padding: 0; margin: 0;
+  counter-reset: step;
+}
+.ex-steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 10px 0 10px 36px;
+  font-size: 13px; line-height: 1.55; color: var(--text); opacity: .85;
+  border-bottom: 1px solid var(--border);
+}
+.ex-steps li:first-child { padding-top: 12px; }
+.ex-steps li:last-child { border-bottom: none; }
+.ex-steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+  color: var(--muted); width: 24px; text-align: right;
+}
+.ex-steps li:first-child::before { top: 12px; }
+
+.ex-notes-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+  margin-top: 16px;
+}
+
 .ex-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .tagchip {
   font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .03em;
