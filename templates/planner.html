@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% set active = 'plan' %}
-{% block title %}Week {{ week.week_number }} · Trainer{% endblock %}
+{% block title %}{% if not_started %}{{ plan.name }} · Trainer{% else %}Week {{ week.week_number }} · Trainer{% endif %}{% endblock %}
 
 {% macro session_card(a, placed=False) %}
   {# a = DayAssignment; s = its session #}
@@ -38,6 +38,27 @@
 {% endmacro %}
 
 {% block content %}
+{% if not_started %}
+<header class="wk-head">
+  <div class="wk-nav">
+    <span class="nav-btn ghost">‹</span>
+    <div class="wk-center">
+      <div class="wk-eyebrow"><span class="wk-num">{{ plan.name }}</span></div>
+      <div class="wk-sub">Plan not yet started</div>
+    </div>
+    <span class="nav-btn ghost">›</span>
+  </div>
+</header>
+<section class="ps-wrap">
+  <div class="ps-card">
+    <div class="ps-count">{{ days_until }}</div>
+    <div class="ps-unit">day{{ 's' if days_until != 1 }} to go</div>
+    <div class="ps-date">Starts {{ start_label }}</div>
+    <a class="btn" href="{{ url_for('settings.settings') }}">Change start date</a>
+  </div>
+</section>
+
+{% else %}
 <header class="wk-head" style="--phase: {{ phase.color }};">
   <div class="wk-nav">
     {% if prev_n %}<a class="nav-btn" href="{{ url_for('planner.week_view', n=prev_n) }}" aria-label="Previous week">‹</a>
@@ -115,8 +136,11 @@
 </section>
 
 <div class="pad"></div>
+{% endif %}
 {% endblock %}
 
 {% block scripts %}
+{% if not not_started %}
 <script src="{{ url_for('static', filename='js/planner.js') }}"></script>
+{% endif %}
 {% endblock %}

@@ -104,6 +104,13 @@ def _progress_delta(plan, current_week):
 def home():
     plan = get_active_plan()
     start = _plan_start()
+    days_left = pw.days_until_start(start)
+    if days_left > 0:
+        mon = pw.anchor_monday(start)
+        date_label = f"{pw.DOW[mon.weekday()]} {pw.ordinal(mon.day)} {pw.MONTHS[mon.month - 1]}"
+        return render_template("planner.html", plan=plan,
+                               not_started=True, days_until=days_left,
+                               start_label=date_label)
     n = pw.current_week_number(start, total=plan.weeks)
     return redirect(url_for("planner.week_view", n=n))
 

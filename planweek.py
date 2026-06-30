@@ -35,6 +35,12 @@ def anchor_monday(start):
     return start - datetime.timedelta(days=start.weekday())
 
 
+def days_until_start(start, today=None):
+    """Positive days until the plan's first Monday; 0 once the plan has started."""
+    today = today or datetime.date.today()
+    return max(0, (anchor_monday(start) - today).days)
+
+
 def current_week_number(start, today=None, total=TOTAL_WEEKS):
     """Which plan week 'today' falls in, clamped to 1..total (the active plan's
     length; defaults to 52 for callers that don't pass one)."""

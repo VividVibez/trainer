@@ -149,6 +149,34 @@ a { color: inherit; text-decoration: none; }
   border-radius: 20px; padding: 1px 8px; font-size: 10px;
 }
 
+/* ============================ PRE-START STATE ============================ */
+.ps-wrap {
+  display: flex; justify-content: center; align-items: flex-start;
+  padding: 60px 24px;
+}
+.ps-card {
+  text-align: center;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 40px 32px;
+  max-width: 320px; width: 100%;
+}
+.ps-count {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 80px; line-height: 1;
+  letter-spacing: .01em; color: var(--text);
+}
+.ps-unit {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 18px;
+}
+.ps-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--muted); letter-spacing: .04em;
+  text-transform: uppercase; margin-bottom: 28px;
+}
+
 .tray { padding: 18px 16px 6px; }
 .tray-cards { display: flex; flex-direction: column; gap: 8px; }
 .empty {
