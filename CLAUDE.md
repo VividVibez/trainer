@@ -133,14 +133,48 @@ not reintroduce them.
   `active_plan`, and counts.
 - **Don't ever commit or delete `trainer.db`.** It's the live placements / active
   plan / start date. Recreated only by an intentional `seed.seed`.
+- **Never put DNS records in the Pi's `/etc/hosts` — a reboot silently eats them.**
+  The Pi runs cloud-init with `manage_etc_hosts: True`, so `/etc/hosts` is
+  regenerated from `/etc/cloud/templates/hosts.debian.tmpl` on **every boot**. A
+  power cut on 2026-08-05 wiped the `192.168.1.142 trainer.pi` line that way and
+  broke the app on the LAN for 9 days while it still worked over VPN. Pi-hole's
+  `dns.hosts` is the durable home for these records (see *Pi / environment*).
+- **Don't hand-edit `/etc/pihole/pihole.toml` while FTL is running** — FTL rewrites
+  it from memory on shutdown and your edit vanishes. That is the real reason behind
+  the old (wrong) note that "`dns.hosts` doesn't survive a restart"; set via
+  `sudo pihole-FTL --config …` and it persists across restarts just fine (verified).
+- **`pihole-FTL --config <key>` run as non-root silently prints DEFAULTS**, not the
+  real config — `pihole.toml` is `0640 pihole:pihole`. It will happily tell you
+  `dns.hosts = []` when the file actually has entries. Always read config with `sudo`.
+- **`/etc/dnsmasq.d/*.conf` is NOT loaded** (`misc.etc_dnsmasq_d = false`), so
+  `02-pivpn.conf` is dead config and `*.pivpn` names don't resolve. Don't try to fix
+  DNS by dropping a file in there.
 
 ## Pi / environment
 
 - Host `pi-hole`; LAN `192.168.1.142`; WireGuard `10.73.213.1`. SSH user `admin`,
   key `~/.ssh/id_ed25519`. SSH aliases: `pihole` (LAN), `pihole-vpn` (VPN).
-- App dir `~/trainer` with its own `venv`. `trainer.pi` resolves via `/etc/hosts`
-  (the Pi-hole `dns.hosts` entry does **not** survive an FTL restart, so `/etc/hosts`
-  is the reliable path).
+- App dir `~/trainer` with its own `venv`.
+- **`trainer.pi` DNS lives in Pi-hole's `dns.hosts` and needs TWO A records** — one
+  per network the app is reached from:
+
+  ```
+  10.73.213.1   trainer.pi   # WireGuard
+  192.168.1.142 trainer.pi   # LAN
+  ```
+
+  Pi-hole has `dns.localise = true`, so each client is handed the record on its own
+  subnet. Drop either one and the site dies on that network *only* — which presents
+  as "works on VPN but not at home" (or vice versa), not as an app fault.
+
+  Set them **only** via the CLI, as root — then restart and verify per interface:
+
+  ```bash
+  sudo pihole-FTL --config dns.hosts '["10.73.213.1 trainer.pi","192.168.1.142 trainer.pi"]'
+  sudo systemctl restart pihole-FTL
+  dig +short @192.168.1.142 trainer.pi   # -> 192.168.1.142
+  dig +short @10.73.213.1   trainer.pi   # -> 10.73.213.1
+  ```
 - Dev client is Windows/PowerShell.
 
 ## Roadmap
