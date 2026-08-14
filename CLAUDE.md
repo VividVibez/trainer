@@ -154,6 +154,14 @@ not reintroduce them.
 
 - Host `pi-hole`; LAN `192.168.1.142`; WireGuard `10.73.213.1`. SSH user `admin`,
   key `~/.ssh/id_ed25519`. SSH aliases: `pihole` (LAN), `pihole-vpn` (VPN).
+- The LAN address is **DHCP with a router reservation** (added 2026-08-14) on the
+  **`eth0`** MAC `dc:a6:32:2a:05:ea`. Note `wlan0` is `dc:a6:32:2a:05:eb` — one
+  character apart; reserving the wrong one fails silently until the lease renews.
+  The reservation is what keeps the hard-coded `192.168.1.142 trainer.pi` record
+  below valid; if the Pi's LAN IP ever moves, that record must move with it.
+- **Port 443 is intentionally closed** in UFW on both interfaces (HTTP only, on a
+  trusted LAN and an encrypted tunnel). pihole-FTL does listen on 443 with a
+  self-signed cert, so `https://` fails everywhere by design, not by fault.
 - App dir `~/trainer` with its own `venv`.
 - **`trainer.pi` DNS lives in Pi-hole's `dns.hosts` and needs TWO A records** — one
   per network the app is reached from:
