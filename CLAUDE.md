@@ -12,6 +12,13 @@ a Raspberry Pi. It does **not** log workouts — Hevy owns logging; never rebuil
 that. The app shows a periodised plan week by week and lets the user keep multiple
 fully independent plans and switch between them.
 
+This repo is the **app only** — it has no training-design logic. Plan design
+(athlete profile, research/evidence base, periodisation, and the plans themselves)
+lives in the sibling repo **[`coach`](../coach)**, which emits plan/exercise JSON
+that gets uploaded here via Settings, or dropped into `seed/data/` and reseeded.
+If you're reasoning about *why* a plan looks the way it does, or asked to design
+or revise one, that's `coach`'s job, not this repo's.
+
 Stack: Flask + Flask-SQLAlchemy + SQLite (`trainer.db`), served by Gunicorn (2
 workers, `127.0.0.1:8000`) behind Nginx, run by systemd unit `trainer.service`.
 App factory pattern (`create_app` in `app.py`); `db` lives in `extensions.py` to
@@ -82,8 +89,9 @@ format, that phases tile `1..weeks` with no gaps, and that all referenced exerci
 exist. `load_plan` creates-or-overwrites by `key` and wipes only that plan's day
 placements. `export_plan` / `export_exercises` round-trip exactly.
 
-> The authoritative, athlete-facing version of this spec lives in the **plan-
-> generation project** (`PLAN_FORMAT.md`). Keep the two in sync if the format changes.
+> The authoritative, athlete-facing version of this spec lives in the sibling
+> **[`coach`](../coach)** repo (`PLAN_FORMAT.md`). Keep the two in sync if the format
+> changes.
 
 ## How the app boots
 

@@ -7,6 +7,10 @@ multiple independent plans.
 
 Runs on a Raspberry Pi on the home network / WireGuard VPN. Single user.
 
+This repo is the app only. Training design — athlete profile, research/evidence
+base, and the plans themselves — lives in the sibling **[`coach`](../coach)** repo,
+which produces the JSON this app imports. See `coach/README.md` for that side.
+
 ## Stack
 
 - **Flask** + **Flask-SQLAlchemy** (app factory in `app.py`, `db` in `extensions.py`)
